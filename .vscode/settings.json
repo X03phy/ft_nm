@@ -1,0 +1,8 @@
+{
+	"files.associations": {
+		"ft_nm.h": "c",
+		"linked_list.h": "c",
+		"fcntl.h": "c",
+		"stdio.h": "c"
+	}
+}
