@@ -1,6 +1,7 @@
 #ifndef FT_NM_H
 #define FT_NM_H
 
+
 /* Includes */
 #include "linked_list.h"
 
@@ -16,10 +17,6 @@ typedef struct s_opts {
 /* Prototypes */
 /* Parsing */
 void parse_input( t_opts *opts, int argc, char **argv );
-
-/* Print */
-void ft_nm_error( const char *filename );
-void ft_nm_file_error( const char *filename, const char *message );
 
 /* Tha function */
 int ft_nm( t_opts *opts );

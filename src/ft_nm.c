@@ -1,9 +1,23 @@
 #include "ft_nm.h"
+
+/* For dprintf() */
+#include "ft_printf.h"
+
+/* For open() */
 #include <fcntl.h>
+
+/* For close() */
 #include <unistd.h>
+
+/* For */
 #include <sys/stat.h>
+
+/* For perror() */
 #include <stdio.h>
+
+/* For errno */
 #include <errno.h>
+
 
 static int is_elf_file( const char *filename )
 {
@@ -15,9 +29,12 @@ static int is_elf_file( const char *filename )
 	if ( fd == -1 )
 	{
 		if ( errno == ENOENT )
-			ft_nm_file_error( filename, "no such file" ); //! faire gaffe pcq c est pas le bon fichier
+			ft_dprintf( 2, "ft_nm: « %s »: no such file\n", filename ); //! faire gaffe pcq c est pas le bon fichier
 		else
-			ft_nm_error( filename );
+		{
+			ft_dprintf( 2, "ft_nm: %s: ", filename );
+			perror( NULL );
+		}
 		return ( 0 );
 	}
 
@@ -31,14 +48,7 @@ static int is_elf_file( const char *filename )
 
 	if ( S_ISDIR( st.st_mode ) )
 	{
-		ft_nm_file_error( filename, "is a directory" );
-		close( fd );
-		return ( 0 );
-	}
-
-	if ( !S_ISREG( st.st_mode ) )
-	{
-		ft_nm_file_error( filename, "no such file" );
+		ft_dprintf( 2, "ft_nm: Warning : « %s » is a directory\n", filename );
 		close( fd );
 		return ( 0 );
 	}
@@ -58,10 +68,12 @@ static int is_elf_file( const char *filename )
 	return ( 1 );
 }
 
-// static int process_elf( const char *filename )
-// {
 
-// }
+static int process_elf( const char *filename )
+{
+
+}
+
 
 int ft_nm( t_opts *opts )
 {

@@ -3,6 +3,13 @@
 		"ft_nm.h": "c",
 		"linked_list.h": "c",
 		"fcntl.h": "c",
-		"stdio.h": "c"
+		"stdio.h": "c",
+		"stdarg.h": "c",
+		"ft_printf.h": "c",
+		"random": "c",
+		"stdlib.h": "c",
+		"stat.h": "c",
+		"unistd.h": "c",
+		"string.h": "c"
 	}
 }

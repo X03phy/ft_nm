@@ -1,8 +1,13 @@
 #include "ft_nm.h"
+
+/* For ft_bzero() */
 #include "memory.h"
 
 /* For exit() */
 #include <stdlib.h>
+
+/* For perror() */
+#include <stdio.h>
 
 void parse_input( t_opts *opts, int argc, char **argv )
 {
@@ -15,6 +20,7 @@ void parse_input( t_opts *opts, int argc, char **argv )
 		new = ft_lstnew( argv[i] );
 		if ( !new )
 		{
+			perror( "ft_lstnew()" );
 			// free struct
 			exit( 1 );
 		}
@@ -27,6 +33,7 @@ void parse_input( t_opts *opts, int argc, char **argv )
 		new = ft_lstnew( "a.out" );
 		if ( !new )
 		{
+			perror( "ft_lstnew()" );
 			// free struct
 			exit( 1 );
 		}
