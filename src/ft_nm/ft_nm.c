@@ -1,16 +1,10 @@
 #include "ft_nm.h"
 
-/* For dprintf() */
-#include "ft_printf.h"
-
 /* For open() */
 #include <fcntl.h>
 
 /* For close() */
 #include <unistd.h>
-
-/* For */
-#include <sys/stat.h>
 
 /* For perror() */
 #include <stdio.h>
@@ -19,12 +13,12 @@
 #include <errno.h>
 
 
-static int is_elf_file( const char *filename )
+static int ft_nm( const char *filename )
 {
-	int           fd;
-	struct stat	  st;
-	unsigned char magic[4];
+	int         fd;
+	struct stat st;
 
+	/* Open File */
 	fd = open( filename, O_RDONLY );
 	if ( fd == -1 )
 	{
@@ -38,7 +32,7 @@ static int is_elf_file( const char *filename )
 		return ( 0 );
 	}
 
-	/* Is File */
+	/* Initialize stat */
 	if ( fstat( fd, &st ) < 0 )
 	{
 		perror( "fstat()" );
@@ -46,36 +40,21 @@ static int is_elf_file( const char *filename )
 		return ( 0 );
 	}
 
-	if ( S_ISDIR( st.st_mode ) )
+	if ( !is_elf_file( filename, fd, &st ) )
 	{
-		ft_dprintf( 2, "ft_nm: Warning : « %s » is a directory\n", filename );
 		close( fd );
 		return ( 0 );
 	}
 
-	/* Is ELF File */
-	if ( read( fd, magic, 4 ) != 4 ) //! Maybe add a -1 check
-	{
-		close( fd );
-		return ( 0 );
-	}
+	// if ( map_file(  ) )
 
 	close( fd );
-
-	if ( magic[0] != 0x7f || magic[1] != 'E' || magic[2] != 'L' || magic[3] != 'F' )
-		return ( 0 );
 
 	return ( 1 );
 }
 
 
-static int process_elf( const char *filename )
-{
-
-}
-
-
-int ft_nm( t_opts *opts )
+int ft_nm_wrapper( t_opts *opts )
 {
 	int    error_code = 0;
 	char   *filename;
@@ -88,7 +67,7 @@ int ft_nm( t_opts *opts )
 		filename = node->content;
 		node = node->next;
 
-		if ( !is_elf_file( filename ) )
+		if ( !ft_nm( filename ) )
 		{
 			error_code = 1;
 			continue;

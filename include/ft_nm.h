@@ -1,8 +1,11 @@
 #ifndef FT_NM_H
 #define FT_NM_H
 
-
 /* Includes */
+/* For struct stat, fstat() */
+#include <sys/stat.h>
+
+/* For t_list */
 #include "linked_list.h"
 
 
@@ -18,8 +21,10 @@ typedef struct s_opts {
 /* Parsing */
 void parse_input( t_opts *opts, int argc, char **argv );
 
-/* Tha function */
-int ft_nm( t_opts *opts );
+/* ft_nm */
+int is_elf_file( const char *filename, int fd, struct stat *st );
+int map_file( int *fd, struct stat *st );
+int ft_nm_wrapper( t_opts *opts );
 
 
 #endif

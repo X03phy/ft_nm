@@ -7,7 +7,7 @@ int main( int argc, char **argv )
 
 	parse_input( &opts, argc, argv );
 
-	error_code = ft_nm( &opts );
+	error_code = ft_nm_wrapper( &opts );
 
 	return ( error_code );
 }

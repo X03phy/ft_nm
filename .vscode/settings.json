@@ -10,6 +10,8 @@
 		"stdlib.h": "c",
 		"stat.h": "c",
 		"unistd.h": "c",
-		"string.h": "c"
+		"string.h": "c",
+		"errno.h": "c",
+		"mman.h": "c"
 	}
 }
