@@ -1,5 +1,6 @@
 #include "ft_nm.h"
 
+
 int main( int argc, char **argv )
 {
 	t_opts opts;
@@ -9,5 +10,6 @@ int main( int argc, char **argv )
 
 	error_code = ft_nm_wrapper( &opts );
 
+	ft_lstfree( &opts.files );
 	return ( error_code );
 }

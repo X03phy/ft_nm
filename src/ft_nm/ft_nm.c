@@ -1,5 +1,8 @@
 #include "ft_nm.h"
 
+/* For dprintf() */
+#include "ft_printf.h"
+
 /* For open() */
 #include <fcntl.h>
 
@@ -12,11 +15,15 @@
 /* For errno */
 #include <errno.h>
 
+/* For mmap(), munmap() */
+#include <sys/mman.h>
+
 
 static int ft_nm( const char *filename )
 {
 	int         fd;
 	struct stat st;
+	void         *map;
 
 	/* Open File */
 	fd = open( filename, O_RDONLY );
@@ -46,7 +53,14 @@ static int ft_nm( const char *filename )
 		return ( 0 );
 	}
 
-	// if ( map_file(  ) )
+	/* Map ELF */
+	map = mmap( NULL, st.st_size, PROT_READ, MAP_PRIVATE, fd, 0 );
+	if ( map == MAP_FAILED )
+	{
+		perror( "mmap()" );
+		close( fd );
+		return ( 0 );
+	}
 
 	close( fd );
 

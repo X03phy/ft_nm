@@ -23,7 +23,7 @@ void parse_input( t_opts *opts, int argc, char **argv );
 
 /* ft_nm */
 int is_elf_file( const char *filename, int fd, struct stat *st );
-int map_file( int *fd, struct stat *st );
+int process_elf( const char *filename, int fd, struct stat *st, void *map );
 int ft_nm_wrapper( t_opts *opts );
 
 
