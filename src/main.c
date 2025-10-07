@@ -6,7 +6,8 @@ int main( int argc, char **argv )
 	t_opts opts;
 	int    error_code;
 
-	parse_input( &opts, argc, argv );
+	if ( !parse_input( &opts, argc, argv ) )
+		return ( 1 );
 
 	error_code = ft_nm_wrapper( &opts );
 

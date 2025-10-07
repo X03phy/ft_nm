@@ -3,13 +3,11 @@
 /* For ft_bzero() */
 #include "memory.h"
 
-/* For exit() */
-#include <stdlib.h>
-
 /* For perror() */
 #include <stdio.h>
 
-void parse_input( t_opts *opts, int argc, char **argv )
+
+int parse_input( t_opts *opts, int argc, char **argv )
 {
 	t_list *new;
 
@@ -21,8 +19,8 @@ void parse_input( t_opts *opts, int argc, char **argv )
 		if ( !new )
 		{
 			perror( "ft_lstnew()" );
-			// free struct
-			exit( 1 );
+			ft_lstfree( &opts->files );
+			return ( 0 );
 		}
 		ft_lstadd_back( &( opts->files ), new );
 		opts->nb_files += 1;
@@ -34,10 +32,12 @@ void parse_input( t_opts *opts, int argc, char **argv )
 		if ( !new )
 		{
 			perror( "ft_lstnew()" );
-			// free struct
-			exit( 1 );
+			ft_lstfree( &opts->files );
+			return ( 0 );
 		}
 		ft_lstadd_back( &( opts->files ), new );
 		opts->nb_files += 1;
 	}
+
+	return ( 1 );
 }
