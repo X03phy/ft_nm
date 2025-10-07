@@ -19,11 +19,10 @@ typedef struct s_opts {
 
 /* Prototypes */
 /* Parsing */
-void parse_input( t_opts *opts, int argc, char **argv );
+int parse_input( t_opts *opts, int argc, char **argv );
 
 /* ft_nm */
-int is_elf_file( const char *filename, int fd, struct stat *st );
-int process_elf( const char *filename, int fd, struct stat *st, void *map );
+int process_file( const char *filename, int fd, struct stat *st, void *map );
 int ft_nm_wrapper( t_opts *opts );
 
 
