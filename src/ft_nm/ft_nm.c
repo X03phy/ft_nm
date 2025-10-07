@@ -1,6 +1,6 @@
 #include "ft_nm.h"
 
-/* For dprintf() */
+/* For ft_dprintf() */
 #include "ft_printf.h"
 
 /* For open() */
@@ -23,7 +23,7 @@ static int ft_nm( const char *filename )
 {
 	int         fd;
 	struct stat st;
-	void         *map;
+	void        *map;
 
 	/* Open File */
 	fd = open( filename, O_RDONLY );
@@ -47,13 +47,14 @@ static int ft_nm( const char *filename )
 		return ( 0 );
 	}
 
-	if ( !is_elf_file( filename, fd, &st ) )
+	/* Is File */
+	if ( S_ISDIR( st.st_mode ) )
 	{
-		close( fd );
+		ft_dprintf( 2, "ft_nm: Warning : « %s » is a directory\n", filename );
 		return ( 0 );
 	}
 
-	/* Map ELF */
+	/* Map File */
 	map = mmap( NULL, st.st_size, PROT_READ, MAP_PRIVATE, fd, 0 );
 	if ( map == MAP_FAILED )
 	{
@@ -61,6 +62,8 @@ static int ft_nm( const char *filename )
 		close( fd );
 		return ( 0 );
 	}
+
+	process_file( filename, fd, &st, map );
 
 	close( fd );
 
