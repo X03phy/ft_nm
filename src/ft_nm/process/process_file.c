@@ -6,28 +6,6 @@
 #include <elf.h>
 
 
-int process_elf64( void *map )
-{
-	Elf64_Ehdr *ehdr;
-	Elf64_Shdr *sections;
-	// Elf64_Sym  *syms;
-
-	ehdr = ( Elf64_Ehdr * )map;
-	sections = ( Elf64_Shdr * )( map + ehdr->e_shoff );
-
-	for ( int i = 0; i < ehdr->e_shnum; i += 1 )
-	{
-		if ( sections[i].sh_type == SHT_SYMTAB || sections[i].sh_type == SHT_DYNSYM )
-		{
-			// syms = ( Elf64_Sym * )( map + sections[i].sh_offset );
-			
-		}
-	}
-
-	return ( 1 );
-}
-
-
 int process_file( const char *filename, int fd, struct stat *st, void *map )
 {
 	(void)st;

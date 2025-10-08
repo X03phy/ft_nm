@@ -30,3 +30,12 @@ typedef struct {
     uint64_t sh_entsize;    // Taille d’un élément (utile pour .symtab)
 } Elf64_Shdr;
 
+
+typedef struct {
+   uint32_t st_name;       // Index du nom dans la table de chaînes
+   unsigned char st_info;  // Type et liaison (func, object, global/local)
+   unsigned char st_other; // Visibilité
+   uint16_t st_shndx;      // Index de la section associée
+   uint64_t st_value;      // Adresse ou offset du symbole
+   uint64_t st_size;       // Taille (si connue)
+} Elf64_Sym;
