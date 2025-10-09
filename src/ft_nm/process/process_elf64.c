@@ -5,36 +5,68 @@
 
 #include <elf.h>
 #include <stdio.h>
-static char get_symbol_type64( Elf64_Sym sym, Elf64_Shdr *sections )
+
+static char get_symbol_type64( Elf64_Sym sym, Elf64_Ehdr *elf_header, Elf64_Shdr *sections )
 {
-	if ( sym.st_shndx == SHN_UNDEF )
+	uint32_t     type, bind;
+	char         c;
+	uint16_t     shnum, shndx;
+	// uint64_t     flags;
+
+	type = ELF64_ST_TYPE( sym.st_info );
+	bind = ELF64_ST_BIND( sym.st_info );
+
+	if ( bind == STB_GNU_UNIQUE )
+		return ( 'u' );
+	if ( type == STT_GNU_IFUNC )
+		return ( 'i' );
+
+	shndx = sym.st_shndx;
+
+	if ( bind == STB_WEAK )
+	{
+		if ( type == STT_OBJECT )
+			return ( shndx == SHN_UNDEF ? 'v' : 'V' );
+		return ( shndx == SHN_UNDEF ? 'w' : 'W' );
+	}
+
+	if ( shndx == SHN_UNDEF )
 		return ( 'U' );
-	if ( sym.st_shndx == SHN_ABS )
+	if ( shndx == SHN_ABS )
 		return ( 'A' );
-	if ( sym.st_shndx == SHN_COMMON )
-		return ( 'C' );
 
-	Elf64_Shdr shdr = sections[sym.st_shndx];
+	c = '?';
+	shnum = elf_header->e_shnum;
 
-	if ( shdr.sh_type == SHT_NOBITS && ( shdr.sh_flags & ( SHF_ALLOC | SHF_WRITE ) ) )
-		return ( 'b' );
-	if ( ( shdr.sh_type == SHT_PROGBITS || shdr.sh_type == SHT_DYNAMIC ) && ( shdr.sh_flags & ( SHF_ALLOC | SHF_WRITE ) ) )
-        return 'D';
-	return ( '?' );
+	if ( shndx == SHN_COMMON )
+		c = 'C';
+	else if ( shndx < shnum )
+	{
+		type = sections[shndx].sh_type;
+		// flags = sections[shndx].sh_flags;
+
+		if ( type == SHT_NOBITS )
+			c = 'B';
+	}
+
+	if ( bind == STB_LOCAL && c != '?' )
+		c += 32;
+
+	return ( c );
 }
 
 
 int process_elf64( void *map )
 {
-	Elf64_Ehdr *ehdr;
+	Elf64_Ehdr *elf_header;
 	Elf64_Shdr *sections;
 	Elf64_Sym  *syms;
 	size_t     sym_count;
 
-	ehdr = ( Elf64_Ehdr * )map;
-	sections = ( Elf64_Shdr * )( map + ehdr->e_shoff );
+	elf_header = ( Elf64_Ehdr * )map;
+	sections = ( Elf64_Shdr * )( map + elf_header->e_shoff );
 
-	for ( int i = 0; i < ehdr->e_shnum; i += 1 )
+	for ( int i = 0; i < elf_header->e_shnum; i += 1 )
 	{
 		if ( sections[i].sh_type == SHT_SYMTAB || sections[i].sh_type == SHT_DYNSYM )
 		{
@@ -45,16 +77,16 @@ int process_elf64( void *map )
 
 			for ( size_t j = 0; j < sym_count; j += 1 )
 			{
-				if (ELF64_ST_TYPE(syms[i].st_info) == STT_FILE)
+				if ( ELF64_ST_TYPE( syms[j].st_info ) == STT_FILE )
 					continue;
-				if (ELF64_ST_BIND(syms[i].st_info) == STB_LOCAL)
+				if ( ELF64_ST_BIND( syms[j].st_info ) == STB_LOCAL )
 					continue;
 				if ( syms[j].st_name == 0 )
 					continue;
 
 				const char *sym_name = strtab + syms[j].st_name;
 
-				char type = get_symbol_type64( syms[j], sections );
+				char type = get_symbol_type64( syms[j], elf_header, sections );
 				// Affiche l’adresse, le type et le nom
 				printf("%016lx %c %s\n", syms[j].st_value, type, sym_name);
 			}
