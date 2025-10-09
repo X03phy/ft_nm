@@ -11,7 +11,7 @@ static char get_symbol_type64( Elf64_Sym sym, Elf64_Ehdr *elf_header, Elf64_Shdr
 	uint32_t     type, bind;
 	char         c;
 	uint16_t     shnum, shndx;
-	// uint64_t     flags;
+	uint64_t     flags;
 
 	type = ELF64_ST_TYPE( sym.st_info );
 	bind = ELF64_ST_BIND( sym.st_info );
@@ -43,10 +43,21 @@ static char get_symbol_type64( Elf64_Sym sym, Elf64_Ehdr *elf_header, Elf64_Shdr
 	else if ( shndx < shnum )
 	{
 		type = sections[shndx].sh_type;
-		// flags = sections[shndx].sh_flags;
+		flags = sections[shndx].sh_flags;
 
 		if ( type == SHT_NOBITS )
 			c = 'B';
+		else if (!(flags & SHF_WRITE))
+		{
+			if(flags & SHF_ALLOC && flags & SHF_EXECINSTR)
+				c = 'T';
+			else
+				c = 'R';
+		}
+		else if(flags & SHF_EXECINSTR)
+			c = 'T';
+		else
+			c = 'D';
 	}
 
 	if ( bind == STB_LOCAL && c != '?' )
@@ -68,7 +79,7 @@ int process_elf64( void *map )
 
 	for ( int i = 0; i < elf_header->e_shnum; i += 1 )
 	{
-		if ( sections[i].sh_type == SHT_SYMTAB || sections[i].sh_type == SHT_DYNSYM )
+		if ( sections[i].sh_type == SHT_SYMTAB )
 		{
 			syms = ( Elf64_Sym * )( map + sections[i].sh_offset );
 			sym_count = sections[i].sh_size / sizeof( Elf64_Sym );
@@ -78,8 +89,6 @@ int process_elf64( void *map )
 			for ( size_t j = 0; j < sym_count; j += 1 )
 			{
 				if ( ELF64_ST_TYPE( syms[j].st_info ) == STT_FILE )
-					continue;
-				if ( ELF64_ST_BIND( syms[j].st_info ) == STB_LOCAL )
 					continue;
 				if ( syms[j].st_name == 0 )
 					continue;
