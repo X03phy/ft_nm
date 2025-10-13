@@ -1,7 +1,7 @@
 #ifndef FT_NM_H
 #define FT_NM_H
 
-/* Includes */
+/* Headers */
 /* For struct stat, fstat() */
 #include <sys/stat.h>
 
