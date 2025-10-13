@@ -6,12 +6,11 @@
 /* For perror() */
 #include <stdio.h>
 
-
 int parse_input( t_opts *opts, int argc, char **argv )
 {
 	t_list *new;
 
-	ft_bzero( opts, sizeof(t_opts) );
+	ft_bzero( opts, sizeof( t_opts ) );
 
 	for ( int i = 1; i < argc; i += 1 )
 	{

@@ -1,10 +1,9 @@
 #include "ft_nm.h"
 
-
 int main( int argc, char **argv )
 {
 	t_opts opts;
-	int    error_code;
+	int	 error_code;
 
 	if ( !parse_input( &opts, argc, argv ) )
 		return ( 1 );
