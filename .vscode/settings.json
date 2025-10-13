@@ -12,6 +12,8 @@
 		"unistd.h": "c",
 		"string.h": "c",
 		"errno.h": "c",
-		"mman.h": "c"
+		"mman.h": "c",
+		"stdint.h": "c",
+		"endian64.h": "c"
 	}
 }

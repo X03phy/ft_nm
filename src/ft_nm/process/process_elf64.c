@@ -5,7 +5,7 @@
 #include "ft_printf.h"
 
 
-#include "endian_utils.h"
+#include "endian64.h"
 
 
 #include <elf.h>
@@ -14,6 +14,7 @@
 #include <stdio.h>
 
 
+/* Code */
 static int is_file_little_endian( const Elf64_Ehdr *elf_header )
 {
 	if ( elf_header->e_ident[EI_DATA] == ELFDATA2LSB )
@@ -92,35 +93,31 @@ static char get_symbol_type64( Elf64_Sym sym, Elf64_Ehdr *elf_header, Elf64_Shdr
 int process_elf64( void *map )
 {
 	Elf64_Ehdr *elf_header;
-	uint64_t   e_shoff;
-	int        file_is_little_endian;
+	int        little;
 	Elf64_Shdr *sections;
 	Elf64_Sym  *syms;
-	uint16_t   e_shnum;
-	uint32_t   sh_type;
+	char       *strtab;
 	size_t     sym_count;
 
 	elf_header = ( Elf64_Ehdr * )map;
 
-	file_is_little_endian = is_file_little_endian( elf_header );
-	if ( file_is_little_endian == -1 )
+	little = is_file_little_endian( elf_header );
+	if ( little == -1 )
 		return ( 1 );
 
-	e_shoff = read64( elf_header->e_shoff, file_is_little_endian );
+	convert_elf_header_endian( elf_header, little );
 
-	sections = ( Elf64_Shdr * )( map + e_shoff );
+	sections = ( Elf64_Shdr * )( map + elf_header->e_shoff );
+	convert_elf_sections_endian( sections, elf_header->e_shnum, little );
 
-	e_shnum = read16( elf_header->e_shnum, file_is_little_endian );
-
-	for ( uint16_t i = 0; i < e_shnum; i += 1 )
+	for ( uint16_t i = 0; i < elf_header->e_shnum; i += 1 )
 	{
-		sh_type = read32( sections[i].sh_type, file_is_little_endian );
-		if ( sh_type == SHT_SYMTAB )
+		if ( sections[i].sh_type == SHT_SYMTAB )
 		{
 			syms = ( Elf64_Sym * )( map + sections[i].sh_offset );
 			sym_count = sections[i].sh_size / sizeof( Elf64_Sym );
 
-			const char *strtab = ( const char * )( map + sections[sections[i].sh_link].sh_offset );
+			strtab = ( char * )( map + sections[sections[i].sh_link].sh_offset );
 
 			for ( size_t j = 0; j < sym_count; j += 1 )
 			{
