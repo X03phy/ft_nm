@@ -14,36 +14,36 @@
 
 /*
 Prototype
-   int ft_memcmp(const void *s1, const void *s2, size_t n);
+	int ft_memcmp(const void *s1, const void *s2, size_t n);
 
 Description
-   Compares the first `n` bytes of the memory areas `s1` and `s2`.
-   The comparison is performed byte by byte, interpreting the bytes as
+	Compares the first `n` bytes of the memory areas `s1` and `s2`.
+	The comparison is performed byte by byte, interpreting the bytes as
 	unsigned char values.
 
 Parameters
-   #1. s1 : A pointer to the first memory area.
-   #2. s2 : A pointer to the second memory area.
-   #3. n  : The number of bytes to compare.
+	#1. s1 : A pointer to the first memory area.
+	#2. s2 : A pointer to the second memory area.
+	#3. n  : The number of bytes to compare.
 
 Return value
-   An integer less than, equal to, or greater than 0, depending on whether
+	An integer less than, equal to, or greater than 0, depending on whether
 	the first `n` bytes of `s1` are found to be
-   less than, equal to, or greater than the first `n` bytes of `s2`.
+	less than, equal to, or greater than the first `n` bytes of `s2`.
 */
 
-int	ft_memcmp(const void *pointer1, const void *pointer2, size_t size)
+int ft_memcmp( const void *pointer1, const void *pointer2, size_t size )
 {
-	const char	*ptr1;
-	const char	*ptr2;
+	const char *ptr1;
+	const char *ptr2;
 	size_t		count;
 
-	if (size == 0)
-		return (0);
+	if ( size == 0 )
+		return ( 0 );
 	count = 0;
-	ptr1 = (const char *)pointer1;
-	ptr2 = (const char *)pointer2;
-	while (count < size - 1 && ptr1[count] == ptr2[count])
+	ptr1 = (const char *) pointer1;
+	ptr2 = (const char *) pointer2;
+	while ( count < size - 1 && ptr1[count] == ptr2[count] )
 		count++;
-	return ((unsigned char)ptr1[count] - (unsigned char)ptr2[count]);
+	return ( (unsigned char) ptr1[count] - (unsigned char) ptr2[count] );
 }

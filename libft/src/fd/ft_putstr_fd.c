@@ -28,16 +28,16 @@ Return value
 	None
 */
 
-void	ft_putstr_fd(const char *s, int fd)
+void ft_putstr_fd( const char *s, int fd )
 {
-	size_t	count;
+	size_t count;
 
-	if (!s)
-		return ;
+	if ( !s )
+		return;
 	count = 0;
-	while (s[count])
+	while ( s[count] )
 	{
-		ft_putchar_fd(s[count], fd);
+		ft_putchar_fd( s[count], fd );
 		count++;
 	}
 }

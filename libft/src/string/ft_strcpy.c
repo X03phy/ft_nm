@@ -12,18 +12,18 @@
 
 #include "string.h"
 
-size_t	ft_strcpy(char *dest, const char *src)
+size_t ft_strcpy( char *dest, const char *src )
 {
-	size_t	len_src;
-	size_t	count;
+	size_t len_src;
+	size_t count;
 
-	len_src = ft_strlen(src);
+	len_src = ft_strlen( src );
 	count = 0;
-	while (src[count])
+	while ( src[count] )
 	{
 		dest[count] = src[count];
 		count++;
 	}
 	dest[count] = '\0';
-	return (len_src);
+	return ( len_src );
 }

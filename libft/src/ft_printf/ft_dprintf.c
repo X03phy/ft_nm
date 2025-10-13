@@ -29,7 +29,7 @@ static int ft_convert( const int fd, const char spec, va_list ap )
 
 int ft_dprintf( int fd, const char *format, ... )
 {
-	int count = 0;
+	int	  count = 0;
 	va_list ap;
 
 	if ( fd < 0 || 1023 < fd || format == NULL )

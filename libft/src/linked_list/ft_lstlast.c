@@ -26,11 +26,11 @@ Return value
 	Last element of the list.
 */
 
-t_list	*ft_lstlast(t_list *lst)
+t_list *ft_lstlast( t_list *lst )
 {
-	if (!lst)
-		return (NULL);
-	while (lst->next != NULL)
+	if ( !lst )
+		return ( NULL );
+	while ( lst->next != NULL )
 		lst = lst->next;
-	return (lst);
+	return ( lst );
 }

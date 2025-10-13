@@ -26,37 +26,37 @@ Return value
 	The trimmed string. NULL if the allocation fails.
 */
 
-static int	is_in_set(char c, char const *set)
+static int is_in_set( char c, char const *set )
 {
-	int	i;
+	int i;
 
 	i = 0;
-	while (set[i])
+	while ( set[i] )
 	{
-		if (set[i] == c)
-			return (1);
+		if ( set[i] == c )
+			return ( 1 );
 		i++;
 	}
-	return (0);
+	return ( 0 );
 }
 
-char	*ft_strtrim(char const *s1, char const *set)
+char *ft_strtrim( char const *s1, char const *set )
 {
-	size_t	start;
-	size_t	end;
-	char	*dst;
+	size_t start;
+	size_t end;
+	char  *dst;
 
-	if (!s1 || !set)
-		return (NULL);
+	if ( !s1 || !set )
+		return ( NULL );
 	start = 0;
-	end = ft_strlen(s1);
-	while (start < end && is_in_set(s1[start], set))
+	end = ft_strlen( s1 );
+	while ( start < end && is_in_set( s1[start], set ) )
 		start++;
-	while (start < end && is_in_set(s1[end - 1], set))
+	while ( start < end && is_in_set( s1[end - 1], set ) )
 		end--;
-	dst = malloc(sizeof(char) * (end - start + 1));
-	if (!dst)
-		return (NULL);
-	ft_strlcpy(dst, s1 + start, end - start + 1);
-	return (dst);
+	dst = malloc( sizeof( char ) * ( end - start + 1 ) );
+	if ( !dst )
+		return ( NULL );
+	ft_strlcpy( dst, s1 + start, end - start + 1 );
+	return ( dst );
 }

@@ -28,7 +28,7 @@ Return value
 	None
 */
 
-void	ft_putchar_fd(const char c, int fd)
+void ft_putchar_fd( const char c, int fd )
 {
-	write(fd, &c, 1);
+	write( fd, &c, 1 );
 }

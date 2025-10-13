@@ -12,9 +12,9 @@
 
 #include "../../include/char.h"
 
-int	ft_isspace(int c)
+int ft_isspace( int c )
 {
-	if (c == ' ' || (9 <= c && c <= 13))
-		return (1);
-	return (0);
+	if ( c == ' ' || ( 9 <= c && c <= 13 ) )
+		return ( 1 );
+	return ( 0 );
 }

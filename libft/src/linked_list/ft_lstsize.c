@@ -26,15 +26,15 @@ Return value
 	Length of the list.
 */
 
-int	ft_lstsize(t_list *lst)
+int ft_lstsize( t_list *lst )
 {
-	int	count;
+	int count;
 
 	count = 0;
-	while (lst)
+	while ( lst )
 	{
 		lst = lst->next;
 		count++;
 	}
-	return (count);
+	return ( count );
 }

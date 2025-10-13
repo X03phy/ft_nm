@@ -4,7 +4,7 @@ char *ft_strremove( const char *str, const char c )
 {
 	size_t len;
 	size_t i, j;
-	char   *s;
+	char  *s;
 
 	if ( !str || c == '\0' ) // Handle that case for a clean function
 		return ( NULL );
@@ -18,7 +18,7 @@ char *ft_strremove( const char *str, const char c )
 		i += 1;
 	}
 
-	s = malloc( sizeof(char) * len + 1 );
+	s = malloc( sizeof( char ) * len + 1 );
 	if ( !s )
 		return ( NULL );
 

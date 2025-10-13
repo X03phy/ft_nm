@@ -12,18 +12,18 @@
 
 #include "../../include/char.h"
 
-int	ft_char_occurence(char *str, char c)
+int ft_char_occurence( char *str, char c )
 {
-	int	count;
+	int count;
 
 	count = 0;
-	if (!str)
-		return (count);
-	while (*str)
+	if ( !str )
+		return ( count );
+	while ( *str )
 	{
-		if (*str == c)
+		if ( *str == c )
 			count++;
 		str++;
 	}
-	return (count);
+	return ( count );
 }

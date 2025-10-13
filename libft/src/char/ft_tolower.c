@@ -14,25 +14,25 @@
 
 /*
 Prototype
-   int ft_tolower(int c);
+	int ft_tolower(int c);
 
 Description
-   Converts an uppercase alphabetic character to its corresponding lowercase
+	Converts an uppercase alphabetic character to its corresponding lowercase
 	equivalent.
-   If the input character is not an uppercase letter, it is returned unchanged.
+	If the input character is not an uppercase letter, it is returned unchanged.
 
 Parameters
-   #1. c : The character to be converted, passed as an `int`
+	#1. c : The character to be converted, passed as an `int`
 	(typically a `char`).
 
 Return value
-   The lowercase equivalent of the character if it is uppercase; otherwise,
+	The lowercase equivalent of the character if it is uppercase; otherwise,
 	the character itself is returned unchanged.
 */
 
-int	ft_tolower(int c)
+int ft_tolower( int c )
 {
-	if (c >= 'A' && c <= 'Z')
+	if ( c >= 'A' && c <= 'Z' )
 		c += 32;
-	return (c);
+	return ( c );
 }

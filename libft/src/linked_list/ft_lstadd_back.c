@@ -31,14 +31,14 @@ Return value
 	None
 */
 
-void	ft_lstadd_back(t_list **lst, t_list *new)
+void ft_lstadd_back( t_list **lst, t_list *new )
 {
-	if (!new)
-		return ;
-	if (!(*lst))
+	if ( !new )
+		return;
+	if ( !( *lst ) )
 	{
 		*lst = new;
-		return ;
+		return;
 	}
-	ft_lstlast(*lst)->next = new;
+	ft_lstlast( *lst )->next = new;
 }

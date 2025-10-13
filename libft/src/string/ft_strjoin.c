@@ -17,7 +17,7 @@ Prototype
 	char *ft_strjoin(char const *s1, char const *s2);
 
 Description
-	Allocates (with malloc(3)) and returns a new string, 
+	Allocates (with malloc(3)) and returns a new string,
 	which is the result of the concatenation of ’s1’ and ’s2’.
 
 Paramètres
@@ -28,29 +28,29 @@ Valeur de retour
 	The new string. NULL if the allocation fails.
 */
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char *ft_strjoin( char const *s1, char const *s2 )
 {
-	char	*s;
-	int		i;
-	int		j;
+	char *s;
+	int	i;
+	int	j;
 
-	if (!s1 || !s2)
-		return (NULL);
-	s = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
-	if (!s)
-		return (NULL);
+	if ( !s1 || !s2 )
+		return ( NULL );
+	s = malloc( sizeof( char ) * ( ft_strlen( s1 ) + ft_strlen( s2 ) + 1 ) );
+	if ( !s )
+		return ( NULL );
 	i = 0;
-	while (s1[i])
+	while ( s1[i] )
 	{
 		s[i] = s1[i];
 		i++;
 	}
 	j = 0;
-	while (s2[j])
+	while ( s2[j] )
 	{
 		s[i + j] = s2[j];
 		j++;
 	}
 	s[i + j] = '\0';
-	return (s);
+	return ( s );
 }

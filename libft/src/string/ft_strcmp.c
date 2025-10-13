@@ -12,12 +12,12 @@
 
 #include "string.h"
 
-int	ft_strcmp(const char *src1, const char *src2)
+int ft_strcmp( const char *src1, const char *src2 )
 {
-	int	i;
+	int i;
 
 	i = 0;
-	while (src1[i] && src1[i] == src2[i])
+	while ( src1[i] && src1[i] == src2[i] )
 		i++;
-	return (src1[i] - src2[i]);
+	return ( src1[i] - src2[i] );
 }

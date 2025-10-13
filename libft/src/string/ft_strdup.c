@@ -14,37 +14,37 @@
 
 /*
 Prototype
-   char *ft_strdup(const char *s1);
+	char *ft_strdup(const char *s1);
 
 Description
-   Allocates memory and returns a copy of the string `s1`.
+	Allocates memory and returns a copy of the string `s1`.
 
 Parameters
-   #1. s1 : The string to duplicate. It must be a null-terminated string.
+	#1. s1 : The string to duplicate. It must be a null-terminated string.
 
 Return value
-   The function returns a pointer to the newly duplicated string. 
-   If memory allocation fails, it returns `NULL`.
+	The function returns a pointer to the newly duplicated string.
+	If memory allocation fails, it returns `NULL`.
 */
 
-char	*ft_strdup(const char *src)
+char *ft_strdup( const char *src )
 {
-	char		*dest;
-	size_t		src_len;
-	size_t		count;
+	char  *dest;
+	size_t src_len;
+	size_t count;
 
-	if (!src)
-		return (NULL);
-	src_len = ft_strlen(src);
-	dest = malloc(sizeof(char) * (src_len + 1));
-	if (!dest)
-		return (NULL);
+	if ( !src )
+		return ( NULL );
+	src_len = ft_strlen( src );
+	dest = malloc( sizeof( char ) * ( src_len + 1 ) );
+	if ( !dest )
+		return ( NULL );
 	count = 0;
-	while (src[count])
+	while ( src[count] )
 	{
 		dest[count] = src[count];
 		count++;
 	}
 	dest[count] = '\0';
-	return (dest);
+	return ( dest );
 }

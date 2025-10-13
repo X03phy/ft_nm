@@ -12,13 +12,13 @@
 
 #include "../../include/char.h"
 
-bool	ft_char_charset(int c, char *charset)
+bool ft_char_charset( int c, char *charset )
 {
-	while (*charset)
+	while ( *charset )
 	{
-		if (c == *charset)
-			return (true);
+		if ( c == *charset )
+			return ( true );
 		charset++;
 	}
-	return (false);
+	return ( false );
 }

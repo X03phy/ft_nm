@@ -14,25 +14,25 @@
 
 /*
 Prototype
-   int toupper(int c);
+	int toupper(int c);
 
 Description
-   Converts a lowercase alphabetic character to its corresponding uppercase
+	Converts a lowercase alphabetic character to its corresponding uppercase
 	equivalent.
-   If the input character is not a lowercase letter, it is returned unchanged.
+	If the input character is not a lowercase letter, it is returned unchanged.
 
 Parameters
-   #1. c : The character to be converted, passed as an `int`
+	#1. c : The character to be converted, passed as an `int`
 	(typically a `char`).
 
 Return value
-   The uppercase equivalent of the character if it is lowercase; otherwise,
+	The uppercase equivalent of the character if it is lowercase; otherwise,
 	the character itself is returned unchanged.
 */
 
-int	ft_toupper(int c)
+int ft_toupper( int c )
 {
-	if (c >= 'a' && c <= 'z')
+	if ( c >= 'a' && c <= 'z' )
 		c -= 32;
-	return (c);
+	return ( c );
 }

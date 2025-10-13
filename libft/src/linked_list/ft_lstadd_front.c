@@ -32,14 +32,14 @@ Return value
 	None
 */
 
-void	ft_lstadd_front(t_list **head, t_list *new)
+void ft_lstadd_front( t_list **head, t_list *new )
 {
-	if (!new)
-		return ;
-	if (!(*head))
+	if ( !new )
+		return;
+	if ( !( *head ) )
 	{
 		*head = new;
-		return ;
+		return;
 	}
 	new->next = *head;
 	*head = new;

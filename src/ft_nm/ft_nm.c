@@ -18,19 +18,19 @@
 /* For mmap(), munmap() */
 #include <sys/mman.h>
 
-
 static int ft_nm( const char *filename )
 {
-	int         fd;
+	int			fd;
 	struct stat st;
-	void        *map;
+	void		  *map;
 
 	/* Open File */
 	fd = open( filename, O_RDONLY );
 	if ( fd == -1 )
 	{
 		if ( errno == ENOENT )
-			ft_dprintf( 2, "ft_nm: « %s »: no such file\n", filename ); //! faire gaffe pcq c est pas le bon fichier
+			ft_dprintf( 2, "ft_nm: « %s »: no such file\n",
+							filename ); //! faire gaffe pcq c est pas le bon fichier
 		else
 		{
 			ft_dprintf( 2, "ft_nm: %s: ", filename );
@@ -70,11 +70,10 @@ static int ft_nm( const char *filename )
 	return ( 1 );
 }
 
-
 int ft_nm_wrapper( t_opts *opts )
 {
-	int    error_code = 0;
-	char   *filename;
+	int	  error_code = 0;
+	char	  *filename;
 	t_list *node;
 
 	node = opts->files;

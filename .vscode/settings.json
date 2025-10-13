@@ -1,25 +1,19 @@
 {
-   "clang-format.executable": "/usr/bin/clang-format",
-   "editor.formatOnSaveMode": "file",
-   "[c]": {
-      "editor.defaultFormatter": "xaver.clang-format",
-      "editor.formatOnSave": true
-   },
-   "files.associations": {
-      "ft_nm.h": "c",
-      "linked_list.h": "c",
-      "fcntl.h": "c",
-      "stdio.h": "c",
-      "stdarg.h": "c",
-      "ft_printf.h": "c",
-      "random": "c",
-      "stdlib.h": "c",
-      "stat.h": "c",
-      "unistd.h": "c",
-      "string.h": "c",
-      "errno.h": "c",
-      "mman.h": "c",
-      "stdint.h": "c",
-      "endian64.h": "c"
-   }
+	"files.associations": {
+		"ft_nm.h": "c",
+		"linked_list.h": "c",
+		"fcntl.h": "c",
+		"stdio.h": "c",
+		"stdarg.h": "c",
+		"ft_printf.h": "c",
+		"random": "c",
+		"stdlib.h": "c",
+		"stat.h": "c",
+		"unistd.h": "c",
+		"string.h": "c",
+		"errno.h": "c",
+		"mman.h": "c",
+		"stdint.h": "c",
+		"endian64.h": "c"
+	}
 }

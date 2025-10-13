@@ -14,23 +14,23 @@
 
 /*
 Prototype
-   int ft_isalpha(int c);
+	int ft_isalpha(int c);
 
 Description
-   Checks whether the given character is an alphabetic letter (either lowercase
+	Checks whether the given character is an alphabetic letter (either lowercase
 	or uppercase).
 
 Parameters
-   #1. c : The character to check, passed as an `int` (typically a `char`).
+	#1. c : The character to check, passed as an `int` (typically a `char`).
 
 Return value
-   The function returns a non-zero value if the character is alphabetic,
+	The function returns a non-zero value if the character is alphabetic,
 	and 0 if it is not.
 */
 
-int	ft_isalpha(int c)
+int ft_isalpha( int c )
 {
-	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
-		return (1);
-	return (0);
+	if ( ( c >= 'a' && c <= 'z' ) || ( c >= 'A' && c <= 'Z' ) )
+		return ( 1 );
+	return ( 0 );
 }
