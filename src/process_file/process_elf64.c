@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 23:32:37 by x03phy            #+#    #+#             */
-/*   Updated: 2025/10/14 12:18:31 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/10/14 12:19:33 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,10 +106,10 @@ int process_elf64( void *map )
 	if ( little == -1 )
 		return ( 1 );
 
-	convert_elf_header_endian( elf_header, little );
+	convert_elf_header64_endian( elf_header, little );
 
 	sections = (Elf64_Shdr *) ( map + elf_header->e_shoff );
-	convert_elf_sections_endian( sections, elf_header->e_shnum, little );
+	convert_elf_sections64_endian( sections, elf_header->e_shnum, little );
 
 	for ( uint16_t i = 0; i < elf_header->e_shnum; i += 1 )
 	{
