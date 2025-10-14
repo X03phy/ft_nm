@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/13 23:32:37 by x03phy            #+#    #+#             */
-/*   Updated: 2025/10/14 12:14:46 by ebonutto         ###   ########.fr       */
+/*   Created: 2025/10/14 12:11:24 by ebonutto          #+#    #+#             */
+/*   Updated: 2025/10/14 12:14:39 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,13 @@ static int is_file_little_endian( const Elf64_Ehdr *elf_header )
 	return ( -1 );
 }
 
-static char get_symbol_type64( Elf64_Sym sym, Elf64_Ehdr *elf_header,
-										 Elf64_Shdr *sections )
+
+static char get_symbol_type64( Elf64_Sym sym, Elf64_Ehdr *elf_header, Elf64_Shdr *sections )
 {
-	uint32_t type, bind;
-	char		c;
-	uint16_t shnum, shndx;
-	uint64_t flags;
+	uint32_t     type, bind;
+	char         c;
+	uint16_t     shnum, shndx;
+	uint64_t     flags;
 
 	type = ELF64_ST_TYPE( sym.st_info );
 	bind = ELF64_ST_BIND( sym.st_info );
@@ -72,14 +72,14 @@ static char get_symbol_type64( Elf64_Sym sym, Elf64_Ehdr *elf_header,
 
 		if ( type == SHT_NOBITS )
 			c = 'B';
-		else if ( !( flags & SHF_WRITE ) )
+		else if (!(flags & SHF_WRITE))
 		{
-			if ( flags & SHF_ALLOC && flags & SHF_EXECINSTR )
+			if(flags & SHF_ALLOC && flags & SHF_EXECINSTR)
 				c = 'T';
 			else
 				c = 'R';
 		}
-		else if ( flags & SHF_EXECINSTR )
+		else if(flags & SHF_EXECINSTR)
 			c = 'T';
 		else
 			c = 'D';
@@ -91,34 +91,35 @@ static char get_symbol_type64( Elf64_Sym sym, Elf64_Ehdr *elf_header,
 	return ( c );
 }
 
+
 int process_elf64( void *map )
 {
 	Elf64_Ehdr *elf_header;
-	int			little;
+	int        little;
 	Elf64_Shdr *sections;
-	Elf64_Sym	 *syms;
-	char		  *strtab;
-	size_t		sym_count;
+	Elf64_Sym  *syms;
+	char       *strtab;
+	size_t     sym_count;
 
-	elf_header = (Elf64_Ehdr *) map;
+	elf_header = ( Elf64_Ehdr * )map;
 
 	little = is_file_little_endian( elf_header );
 	if ( little == -1 )
 		return ( 1 );
 
-	convert_elf_header_endian( elf_header, little );
+	convert_elf_header64_endian( elf_header, little );
 
-	sections = (Elf64_Shdr *) ( map + elf_header->e_shoff );
-	convert_elf_sections_endian( sections, elf_header->e_shnum, little );
+	sections = ( Elf64_Shdr * )( map + elf_header->e_shoff );
+	convert_elf_sections64_endian( sections, elf_header->e_shnum, little );
 
 	for ( uint16_t i = 0; i < elf_header->e_shnum; i += 1 )
 	{
 		if ( sections[i].sh_type == SHT_SYMTAB )
 		{
-			syms = (Elf64_Sym *) ( map + sections[i].sh_offset );
+			syms = ( Elf64_Sym * )( map + sections[i].sh_offset );
 			sym_count = sections[i].sh_size / sizeof( Elf64_Sym );
 
-			strtab = (char *) ( map + sections[sections[i].sh_link].sh_offset );
+			strtab = ( char * )( map + sections[sections[i].sh_link].sh_offset );
 
 			for ( size_t j = 0; j < sym_count; j += 1 )
 			{
@@ -131,7 +132,7 @@ int process_elf64( void *map )
 
 				char type = get_symbol_type64( syms[j], elf_header, sections );
 				// Affiche l’adresse, le type et le nom
-				printf( "%016lx %c %s\n", syms[j].st_value, type, sym_name );
+				printf("%016lx %c %s\n", syms[j].st_value, type, sym_name);
 			}
 		}
 	}

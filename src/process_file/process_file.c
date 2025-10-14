@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_file.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: x03phy <x03phy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 23:32:39 by x03phy            #+#    #+#             */
-/*   Updated: 2025/10/13 23:32:40 by x03phy           ###   ########.fr       */
+/*   Updated: 2025/10/14 12:14:49 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,6 @@
 /* For ft_dprintf() */
 #include "ft_printf.h"
 
-#include <elf.h>
-
-/* Code */
 int process_file( const char *filename, int fd, struct stat *st, void *map )
 {
 	(void) st;
