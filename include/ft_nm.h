@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 23:32:19 by x03phy            #+#    #+#             */
-/*   Updated: 2025/10/14 12:13:34 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/10/14 12:15:54 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 
 /* For t_list */
 #include "linked_list.h"
+
+#include <endian.h>
 
 #include <elf.h>
 

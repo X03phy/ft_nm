@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   endian64.c                                         :+:      :+:    :+:   */
+/*   convert_endian32.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/13 23:32:43 by x03phy            #+#    #+#             */
-/*   Updated: 2025/10/14 12:14:28 by ebonutto         ###   ########.fr       */
+/*   Created: 2025/10/14 12:11:10 by ebonutto          #+#    #+#             */
+/*   Updated: 2025/10/14 12:18:13 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_nm.h"
 
-#include <endian.h>
+#include "ft_bswap.h"
 
 void convert_elf_header64_endian( Elf64_Ehdr *elf_header, int little )
 {
