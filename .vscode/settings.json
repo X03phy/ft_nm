@@ -15,6 +15,15 @@
 		"mman.h": "c",
 		"stdint.h": "c",
 		"endian64.h": "c",
-		"endian.h": "c"
+		"endian.h": "c",
+		"libft.h": "c",
+		"array": "c",
+		"compare": "c",
+		"functional": "c",
+		"ostream": "c",
+		"ranges": "c",
+		"tuple": "c",
+		"type_traits": "c",
+		"utility": "c"
 	}
 }

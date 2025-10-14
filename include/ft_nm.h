@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 23:32:19 by x03phy            #+#    #+#             */
-/*   Updated: 2025/10/14 12:20:50 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/10/14 16:01:42 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,13 @@
 	( file_is_little_endian != ( __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__ ) )
 
 /* Structures */
+typedef struct s_symbol
+{
+	uint64_t address;
+	char     type;
+	char     *name;
+} t_symbol;
+
 typedef struct s_opts
 {
 	int	  flags;
@@ -39,6 +46,9 @@ typedef struct s_opts
 /* Prototypes */
 /* Parsing */
 int parse_input( t_opts *opts, int argc, char **argv );
+
+/* print_symbols */
+void print_nm_symbols( t_opts *opts, t_list *symbols );
 
 /* endian */
 /* 64 archi */
@@ -54,9 +64,9 @@ void convert_elf_sections32_endian( Elf32_Shdr *sections, uint16_t count,
 void convert_elf_symbol32_endian( Elf32_Sym *sym, int little );
 
 /* ft_nm */
-int process_elf32( void *map );
-int process_elf64( void *map );
-int process_file( const char *filename, int fd, struct stat *st, void *map );
+// int process_elf32( void *map );
+int process_elf64( void *map, t_list **symbols );
+int process_file( const char *filename, int fd, struct stat *st, void *map, t_list **symbols );
 int ft_nm_wrapper( t_opts *opts );
 
 #endif

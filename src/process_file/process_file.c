@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 23:32:39 by x03phy            #+#    #+#             */
-/*   Updated: 2025/10/14 12:18:34 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/10/14 14:19:52 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /* For ft_dprintf() */
 #include "ft_printf.h"
 
-int process_file( const char *filename, int fd, struct stat *st, void *map )
+int process_file( const char *filename, int fd, struct stat *st, void *map, t_list **symbols )
 {
 	(void) st;
 	(void) fd;
@@ -26,14 +26,10 @@ int process_file( const char *filename, int fd, struct stat *st, void *map )
 		return ( 0 );
 
 	if ( e_ident[EI_CLASS] == ELFCLASS64 )
-		return ( process_elf64( map ) );
-	// else if ( e_ident[EI_CLASS] == ELFCLASS32 )
-	// 	return ( process_elf32(  ) );
-	else
-	{
-		ft_dprintf( 2, "ft_nm: « %s » invalid ELF class\n", filename );
-		return ( 0 );
-	}
+		return ( process_elf64( map, symbols ) );
+	// if ( e_ident[EI_CLASS] == ELFCLASS32 )
+	//  	return ( process_elf32( map, symbols ) );
 
-	return ( 1 );
+	ft_dprintf( 2, "ft_nm: « %s » invalid ELF class\n", filename );
+	return ( 0 );
 }
