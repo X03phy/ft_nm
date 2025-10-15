@@ -6,7 +6,7 @@
 /*   By: x03phy <x03phy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 12:38:44 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/10/15 23:36:34 by x03phy           ###   ########.fr       */
+/*   Updated: 2025/10/15 23:59:58 by x03phy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static int symbol_name_cmp( t_symbol *s1, t_symbol *s2 )
 void print_nm_symbols( t_opts *opts, t_list *symbols )
 {
 	(void) opts;
-	if ( 1 )
+	if ( !flag_active( opts->flags, FLAG_P ) )
 		ft_list_sort( &symbols, symbol_name_cmp );
 	while ( symbols )
 	{

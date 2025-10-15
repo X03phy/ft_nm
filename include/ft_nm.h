@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_nm.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
+/*   By: x03phy <x03phy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 23:32:19 by x03phy            #+#    #+#             */
-/*   Updated: 2025/10/14 16:01:42 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/10/15 23:59:08 by x03phy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 /* Macros */
 #define NEED_SWAP( file_is_little_endian )                                     \
 	( file_is_little_endian != ( __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__ ) )
+#define FLAG_P 0
 
 /* Structures */
 typedef struct s_symbol
@@ -46,6 +47,10 @@ typedef struct s_opts
 /* Prototypes */
 /* Parsing */
 int parse_input( t_opts *opts, int argc, char **argv );
+static inline int flag_active( int n, int f )
+{
+	return ( ( n >> f ) & 1 );
+}
 
 /* print_symbols */
 void print_nm_symbols( t_opts *opts, t_list *symbols );
