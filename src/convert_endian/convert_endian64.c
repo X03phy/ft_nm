@@ -35,7 +35,7 @@ void convert_elf_header64_endian( Elf64_Ehdr *elf_header, int little )
 }
 
 void convert_elf_sections64_endian( Elf64_Shdr *sections, uint16_t count,
-											 int little )
+												int little )
 {
 	if ( NEED_SWAP( little ) )
 	{

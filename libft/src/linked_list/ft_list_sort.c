@@ -12,22 +12,25 @@
 
 #include "linked_list.h"
 
-void ft_list_sort( t_list **begin_list, int (*cmp)() )
+void ft_list_sort( t_list **begin_list, int ( *cmp )() )
 {
-	int    swapped;
+	int	  swapped;
 	t_list *ptr;
-	void   *tmp;
-	t_list *end = NULL;	
+	void	  *tmp;
+	t_list *end = NULL;
 
 	if ( !begin_list || !cmp || !*begin_list )
-		return ;
+		return;
 
-	do {
+	do
+	{
 		swapped = 0;
 		ptr = *begin_list;
 
-		while (ptr->next != end) {
-			if (cmp(ptr->content, ptr->next->content) > 0) {
+		while ( ptr->next != end )
+		{
+			if ( cmp( ptr->content, ptr->next->content ) > 0 )
+			{
 				tmp = ptr->content;
 				ptr->content = ptr->next->content;
 				ptr->next->content = tmp;
@@ -36,5 +39,5 @@ void ft_list_sort( t_list **begin_list, int (*cmp)() )
 			ptr = ptr->next;
 		}
 		end = ptr;
-	} while (swapped);
+	} while ( swapped );
 }

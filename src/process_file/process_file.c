@@ -15,7 +15,8 @@
 /* For ft_dprintf() */
 #include "ft_printf.h"
 
-int process_file( const char *filename, int fd, struct stat *st, void *map, t_list **symbols )
+int process_file( const char *filename, int fd, struct stat *st, void *map,
+						t_list **symbols )
 {
 	(void) st;
 	(void) fd;

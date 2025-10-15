@@ -95,15 +95,15 @@ int process_elf64( void *map, t_list **symbols )
 {
 	Elf64_Ehdr *elf_header;
 	int			little;
-	Elf64_Shdr  *sections;
-	Elf64_Sym	*syms;
-	char		*strtab;
+	Elf64_Shdr *sections;
+	Elf64_Sym	 *syms;
+	char		  *strtab;
 	size_t		sym_count;
-	uint8_t     type;
-	t_symbol    *symbol;
-	t_list      *new;
+	uint8_t		type;
+	t_symbol	*symbol;
+	t_list *new;
 
-	elf_header = ( Elf64_Ehdr * ) map;
+	elf_header = (Elf64_Ehdr *) map;
 
 	little = is_file_little_endian( elf_header );
 	if ( little == -1 )
@@ -111,23 +111,24 @@ int process_elf64( void *map, t_list **symbols )
 
 	convert_elf_header64_endian( elf_header, little );
 
-	sections = ( Elf64_Shdr * ) ( map + elf_header->e_shoff );
+	sections = (Elf64_Shdr *) ( map + elf_header->e_shoff );
 	convert_elf_sections64_endian( sections, elf_header->e_shnum, little );
 
 	for ( uint16_t i = 0; i < elf_header->e_shnum; i += 1 )
 	{
 		if ( sections[i].sh_type == SHT_SYMTAB )
 		{
-			syms = ( Elf64_Sym * ) ( map + sections[i].sh_offset );
+			syms = (Elf64_Sym *) ( map + sections[i].sh_offset );
 			sym_count = sections[i].sh_size / sizeof( Elf64_Sym );
-			strtab = ( char * ) ( map + sections[sections[i].sh_link].sh_offset );
+			strtab = (char *) ( map + sections[sections[i].sh_link].sh_offset );
 
 			for ( size_t j = 1; j < sym_count; j += 1 )
 			{
 				convert_elf_symbol64_endian( &syms[j], little );
 
 				type = ELF64_ST_TYPE( syms[j].st_info );
-				if (type == STT_FUNC || type == STT_OBJECT || type == STT_NOTYPE || type == STT_GNU_IFUNC || type == STT_TLS)
+				if ( type == STT_FUNC || type == STT_OBJECT || type == STT_NOTYPE ||
+					  type == STT_GNU_IFUNC || type == STT_TLS )
 				{
 					if ( !syms[j].st_name )
 						continue;
@@ -136,7 +137,8 @@ int process_elf64( void *map, t_list **symbols )
 						continue;
 
 					symbol->address = syms[j].st_value;
-					symbol->type = get_symbol_type64( syms[j], elf_header, sections );
+					symbol->type =
+						 get_symbol_type64( syms[j], elf_header, sections );
 					symbol->name = strtab + syms[j].st_name;
 
 					new = ft_lstnew( symbol );

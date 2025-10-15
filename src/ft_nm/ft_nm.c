@@ -32,7 +32,7 @@
 
 int init_map( const char *filename, int *fd, struct stat *st, void **map )
 {
-		/* Open File */
+	/* Open File */
 	*fd = open( filename, O_RDONLY );
 	if ( *fd == -1 )
 	{
@@ -79,12 +79,12 @@ static int ft_nm( t_opts *opts, const char *filename )
 {
 	int			fd;
 	struct stat st;
-	void		*map;
-	int         exit_code;
-	t_list      *symbols;
+	void		  *map;
+	int			exit_code;
+	t_list		 *symbols;
 
 	if ( !init_map( filename, &fd, &st, &map ) )
-		return ( 0 ); 
+		return ( 0 );
 
 	symbols = NULL;
 	exit_code = 1;
