@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 23:32:19 by x03phy            #+#    #+#             */
-/*   Updated: 2025/10/16 12:27:17 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/10/16 13:33:12 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,11 @@
 #define NEED_SWAP( file_is_little_endian )                                     \
 	( file_is_little_endian != ( __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__ ) )
 
-#define FLAG_P 0
-#define FLAG_R 1
+#define FLAG_A 0
+#define FLAG_G 1
+#define FLAG_U 2
+#define FLAG_R 3
+#define FLAG_P 4
 
 /* Structures */
 typedef struct s_symbol
