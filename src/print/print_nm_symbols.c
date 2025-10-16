@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_nm_symbols.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
+/*   By: x03phy <x03phy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 12:38:44 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/10/16 13:51:59 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/10/17 00:10:56 by x03phy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ static int symbol_name_cmp( t_symbol *s1, t_symbol *s2 )
 
 	while ( s1->name[i] && s2->name[j] )
 	{
-		while ( s1->name[i] == '_' )
+		while ( !ft_isalnum( s1->name[i] ) )
 			i += 1;
-		while ( s2->name[j] == '_' )
+		while ( !ft_isalnum( s2->name[j] ) )
 			j += 1;
 
 		l1 = ft_tolower( s1->name[i] );
@@ -55,10 +55,12 @@ void print_nm_symbols( t_opts *opts, t_list *symbols )
 
 	while ( symbols )
 	{
-		if ( flag_active( opts->flags, FLAG_U ) )
-		{
-			if ( symbols->content.type == 'U'  )
-		}
+		// if ( flag_active( opts->flags, FLAG_U ) )
+		// {
+		// 	if ( ( (t_symbol *) ( symbols->content ) )->type == 'w' ||
+		// 	  ( (t_symbol *) ( symbols->content ) )->type == 'U' )
+		// }
+		// else if (  )
 		if ( ( (t_symbol *) ( symbols->content ) )->type == 'w' ||
 			  ( (t_symbol *) ( symbols->content ) )->type == 'U' )
 			printf( "%16c %c %s\n", ' ',
