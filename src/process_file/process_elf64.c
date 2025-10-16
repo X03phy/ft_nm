@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 23:32:37 by x03phy            #+#    #+#             */
-/*   Updated: 2025/10/14 15:55:37 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/10/16 16:07:25 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@
 
 static int is_file_little_endian( const Elf64_Ehdr *elf_header )
 {
-	if ( elf_header->e_ident[EI_DATA] == ELFDATA2LSB )
+	if ( elf_header->e_ident[EI_DATA] == ELFDATA2LSB ) // little endian
 		return ( 1 );
 
-	else if ( elf_header->e_ident[EI_DATA] == ELFDATA2MSB )
+	else if ( elf_header->e_ident[EI_DATA] == ELFDATA2MSB ) // big endian
 		return ( 0 );
 
 	ft_dprintf( 2, "ft_nm: unknown ELF format\n" );
@@ -41,14 +41,14 @@ static char get_symbol_type64( Elf64_Sym sym, Elf64_Ehdr *elf_header,
 	type = ELF64_ST_TYPE( sym.st_info );
 	bind = ELF64_ST_BIND( sym.st_info );
 
-	if ( bind == STB_GNU_UNIQUE )
+	if ( bind == STB_GNU_UNIQUE ) // 
 		return ( 'u' );
-	if ( type == STT_GNU_IFUNC )
+	if ( type == STT_GNU_IFUNC ) // 
 		return ( 'i' );
 
 	shndx = sym.st_shndx;
 
-	if ( bind == STB_WEAK )
+	if ( bind == STB_WEAK ) // 
 	{
 		if ( type == STT_OBJECT )
 			return ( shndx == SHN_UNDEF ? 'v' : 'V' );
