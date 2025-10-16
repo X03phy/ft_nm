@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: x03phy <x03phy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 23:32:32 by x03phy            #+#    #+#             */
-/*   Updated: 2025/10/16 00:07:53 by x03phy           ###   ########.fr       */
+/*   Updated: 2025/10/16 12:28:24 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ int parse_input( t_opts *opts, int argc, char **argv )
 		{
 			if ( argv[i][1] == 'p' )
 				opts->flags |= 1 << FLAG_P;
+			if ( argv[i][1] == 'r' )
+				opts->flags |= 1 << FLAG_R;
 			continue;
 		}
 

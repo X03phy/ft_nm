@@ -20,5 +20,7 @@ t_list *ft_lstmap( t_list *lst, void *( *f )(void *), void ( *del )( void * ) );
 t_list *ft_lstnew( void *content );
 int	  ft_lstsize( t_list *lst );
 void	  ft_list_sort( t_list **begin_list, int ( *cmp )() );
+t_list *ft_lstget( t_list *lst, size_t i );
+void ft_lstrev( t_list **lst );
 
 #endif

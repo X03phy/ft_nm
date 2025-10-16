@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_nm.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: x03phy <x03phy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 23:32:19 by x03phy            #+#    #+#             */
-/*   Updated: 2025/10/15 23:59:08 by x03phy           ###   ########.fr       */
+/*   Updated: 2025/10/16 12:27:17 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,9 @@
 /* Macros */
 #define NEED_SWAP( file_is_little_endian )                                     \
 	( file_is_little_endian != ( __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__ ) )
+
 #define FLAG_P 0
+#define FLAG_R 1
 
 /* Structures */
 typedef struct s_symbol

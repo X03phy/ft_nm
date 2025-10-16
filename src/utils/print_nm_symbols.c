@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_nm_symbols.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: x03phy <x03phy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 12:38:44 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/10/15 23:59:58 by x03phy           ###   ########.fr       */
+/*   Updated: 2025/10/16 12:51:39 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,14 @@ static int symbol_name_cmp( t_symbol *s1, t_symbol *s2 )
 
 void print_nm_symbols( t_opts *opts, t_list *symbols )
 {
-	(void) opts;
 	if ( !flag_active( opts->flags, FLAG_P ) )
+	{	
 		ft_list_sort( &symbols, symbol_name_cmp );
+
+		if ( flag_active( opts->flags, FLAG_R ) )
+			ft_lstrev( &symbols );	
+	}
+
 	while ( symbols )
 	{
 		if ( ( (t_symbol *) ( symbols->content ) )->type == 'w' ||
