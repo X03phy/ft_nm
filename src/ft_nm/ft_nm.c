@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_nm.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
+/*   By: x03phy <x03phy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 23:32:08 by x03phy            #+#    #+#             */
-/*   Updated: 2025/10/14 16:02:03 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/10/17 00:22:35 by x03phy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,9 @@ int ft_nm_wrapper( t_opts *opts )
 	{
 		filename = node->content;
 		node = node->next;
+
+		if ( opts->nb_files > 1 )
+			ft_dprintf( 1, "\n%s:\n", filename );
 
 		if ( !ft_nm( opts, filename ) )
 		{
