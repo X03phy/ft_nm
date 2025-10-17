@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: x03phy <x03phy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 23:32:32 by x03phy            #+#    #+#             */
-/*   Updated: 2025/10/16 23:49:02 by x03phy           ###   ########.fr       */
+/*   Updated: 2025/10/17 13:14:40 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_nm.h"
+
+#include "ft_printf.h"
 
 /* For ft_bzero() */
 #include "memory.h"
@@ -30,17 +32,23 @@ int parse_input( t_opts *opts, int argc, char **argv )
 		{
 			if ( argv[i][1] == 'a' )
 				opts->flags |= 1 << FLAG_A;
-			if ( argv[i][1] == 'g' )
+			else if ( argv[i][1] == 'g' )
 				opts->flags |= 1 << FLAG_G;
-			if ( argv[i][1] == 'u' )
+			else if ( argv[i][1] == 'u' )
 				opts->flags |= 1 << FLAG_U;
-			if ( argv[i][1] == 'r' )
+			else if ( argv[i][1] == 'r' )
 				opts->flags |= 1 << FLAG_R;
-			if ( argv[i][1] == 'p' )
+			else if ( argv[i][1] == 'p' )
 				opts->flags |= 1 << FLAG_P;
+			else
+			{
+				ft_dprintf( 2, "nm: invalid option -- '%c'\n", argv[i][1] );
+				ft_lstfree( &opts->files );
+				return ( 0 );
+			}
 			continue;
 		}
-		
+
 		new = ft_lstnew( argv[i] );
 		if ( !new )
 		{
