@@ -43,10 +43,6 @@ fclean: clean
 
 re: fclean all
 
-format:
-	@find . -type f \( -name "*.c" -o -name "*.h" \) -exec clang-format -i {} +
-	@echo "✅ Code formatted with my custom norme."
-
 -include $(DEP)
 
-.PHONY=all clean fclean re create_dir format
+.PHONY=all clean fclean re create_dir
