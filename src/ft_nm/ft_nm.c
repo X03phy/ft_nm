@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_nm.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: x03phy <x03phy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 23:32:08 by x03phy            #+#    #+#             */
-/*   Updated: 2025/10/17 00:22:35 by x03phy           ###   ########.fr       */
+/*   Updated: 2025/10/17 13:00:02 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,8 @@ static int ft_nm( t_opts *opts, const char *filename )
 
 	print_nm_symbols( opts, symbols );
 
+	munmap( map, st.st_size );
+	
 	ft_lstclear( &symbols, free );
 
 	return ( exit_code );

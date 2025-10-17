@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_nm.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: x03phy <x03phy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 23:32:19 by x03phy            #+#    #+#             */
-/*   Updated: 2025/10/16 23:47:17 by x03phy           ###   ########.fr       */
+/*   Updated: 2025/10/17 12:19:47 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,11 @@
 typedef struct s_symbol
 {
 	uint64_t address;
-	char		type;
-	char	  *name;
+	char	 letter;
+	char	 *name;
+	uint32_t type;
+	uint32_t bind;
+	uint16_t shndx;
 } t_symbol;
 
 typedef struct s_opts

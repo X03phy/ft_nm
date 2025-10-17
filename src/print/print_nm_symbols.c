@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_nm_symbols.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: x03phy <x03phy@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 12:38:44 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/10/17 00:10:56 by x03phy           ###   ########.fr       */
+/*   Updated: 2025/10/17 13:05:57 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,32 +45,47 @@ static int symbol_name_cmp( t_symbol *s1, t_symbol *s2 )
 
 void print_nm_symbols( t_opts *opts, t_list *symbols )
 {
+	char t;
+
 	if ( !flag_active( opts->flags, FLAG_P ) )
 	{	
 		ft_list_sort( &symbols, symbol_name_cmp );
 
 		if ( flag_active( opts->flags, FLAG_R ) )
-			ft_lstrev( &symbols );	
+			ft_lstrev( &symbols );
 	}
 
 	while ( symbols )
 	{
-		// if ( flag_active( opts->flags, FLAG_U ) )
-		// {
-		// 	if ( ( (t_symbol *) ( symbols->content ) )->type == 'w' ||
-		// 	  ( (t_symbol *) ( symbols->content ) )->type == 'U' )
-		// }
-		// else if (  )
-		if ( ( (t_symbol *) ( symbols->content ) )->type == 'w' ||
-			  ( (t_symbol *) ( symbols->content ) )->type == 'U' )
-			printf( "%16c %c %s\n", ' ',
-					  ( (t_symbol *) ( symbols->content ) )->type,
-					  ( (t_symbol *) ( symbols->content ) )->name );
+		t = ( (t_symbol *) ( symbols->content ) )->type;
+		if ( flag_active( opts->flags, FLAG_U ) )
+		{
+			if ( t != 'w' && t != 'U' )
+			{
+				symbols = symbols->next;
+				continue;
+			}
+		}
+		else if ( flag_active( opts->flags, FLAG_G ) )
+		{
+			if ( t != 'w' && ft_islower( t ) )
+			{
+				symbols = symbols->next;
+				continue;
+			}
+		}
+		else if ( !flag_active( opts->flags, FLAG_A ) )
+		{
+			if ( t == 'a' || t == 'A' )
+			{
+				symbols = symbols->next;
+				continue;
+			}
+		}
+		if ( t == 'w' || t == 'U' )
+			printf( "%16c %c %s\n", ' ', t, ( (t_symbol *) ( symbols->content ) )->name );
 		else
-			printf( "%016lx %c %s\n",
-					  ( (t_symbol *) ( symbols->content ) )->address,
-					  ( (t_symbol *) ( symbols->content ) )->type,
-					  ( (t_symbol *) ( symbols->content ) )->name );
+			printf( "%016lx %c %s\n", ( (t_symbol *) ( symbols->content ) )->address, t, ( (t_symbol *) ( symbols->content ) )->name );
 		symbols = symbols->next;
 	}
 }

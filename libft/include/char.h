@@ -6,7 +6,7 @@
 /*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:07:01 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/03/28 16:13:51 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/10/17 12:37:30 by ebonutto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,6 @@ int  ft_issign( int c );
 int  ft_isspace( int c );
 int  ft_tolower( int c );
 int  ft_toupper( int c );
+int  ft_islower( int c );
 
 #endif
