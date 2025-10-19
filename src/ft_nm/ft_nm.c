@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_nm.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
+/*   By: x03phy <x03phy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 23:32:08 by x03phy            #+#    #+#             */
-/*   Updated: 2025/10/17 16:06:07 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/10/19 23:31:19 by x03phy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,18 @@
 /* For mmap(), munmap() */
 #include <sys/mman.h>
 
-int init_map( const char *filename, int *fd, struct stat *st, void **map )
+/*
+** Resource management
+*/
+
+static int init_map( const char *filename, int *fd, struct stat *st, void **map )
 {
 	/* Open File */
 	*fd = open( filename, O_RDONLY );
 	if ( *fd == -1 )
 	{
 		if ( errno == ENOENT )
-			ft_dprintf( 2, "ft_nm: « %s »: no such file\n",
-							filename ); //! faire gaffe pcq c est pas le bon fichier
+			ft_dprintf( 2, "ft_nm: « %s »: no such file\n", filename ); //! faire gaffe pcq c est pas le bon fichier
 		else
 		{
 			ft_dprintf( 2, "ft_nm: %s: ", filename );
@@ -55,10 +58,18 @@ int init_map( const char *filename, int *fd, struct stat *st, void **map )
 		return ( 0 );
 	}
 
-	/* Is File */
+	/* Check if it's a directory */
 	if ( S_ISDIR( ( *st ).st_mode ) )
 	{
 		ft_dprintf( 2, "ft_nm: Warning : « %s » is a directory\n", filename );
+		close( *fd );
+		return ( 0 );
+	}
+
+	/* Check file size */
+	if ( st->st_size == 0 )
+	{
+		ft_dprintf( 2, "ft_nm: « %s »: empty file\n", filename );
 		close( *fd );
 		return ( 0 );
 	}
@@ -75,54 +86,51 @@ int init_map( const char *filename, int *fd, struct stat *st, void **map )
 	return ( 1 );
 }
 
+static void cleanup_map( int fd, void *map, size_t size )
+{
+	if ( map )
+		munmap( map, size );
+	if ( fd >= 0 )
+		close( fd );
+}
+
+/*
+** Processing
+*/
+
 static int ft_nm( t_opts *opts, const char *filename )
 {
-	int			fd;
+	int fd;
 	struct stat st;
-	void		  *map;
-	int			exit_code;
-	t_list		 *symbols;
+	void *map;
+	int exit_code;
+
+	fd = -1;
+	map = NULL;
 
 	if ( !init_map( filename, &fd, &st, &map ) )
 		return ( 0 );
 
-	symbols = NULL;
-	exit_code = 1;
-	if ( !process_file( filename, fd, &st, map, &symbols ) )
-		exit_code = 0;
-
-	close( fd );
-
-	if ( opts->nb_files > 1 )
-		ft_dprintf( 1, "\n%s:\n", filename );
-
-	print_nm_symbols( opts, symbols );
-
-	munmap( map, st.st_size );
-	
-	ft_lstclear( &symbols, free );
-
+	exit_code = process_file_and_print( opts, filename, st.st_size, map );
+	cleanup_map( fd, map, st.st_size );
 	return ( exit_code );
 }
 
 int ft_nm_wrapper( t_opts *opts )
 {
-	int	  error_code = 0;
-	char	  *filename;
+	int error_code;
 	t_list *node;
+	const char *filename;
 
+	error_code = 0;
 	node = opts->files;
 
-	for ( int i = 0; i < opts->nb_files; i += 1 )
+	while ( node )
 	{
-		filename = node->content;
-		node = node->next;
-
+		filename = ( const char * ) node->content;
 		if ( !ft_nm( opts, filename ) )
-		{
 			error_code = 1;
-			continue;
-		}
+		node = node->next;
 	}
 
 	return ( error_code );

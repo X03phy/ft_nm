@@ -26,6 +26,8 @@
 		"type_traits": "c",
 		"utility": "c",
 		"typeinfo": "c",
-		"char.h": "c"
+		"char.h": "c",
+		"ar.h": "c",
+		"memory.h": "c"
 	}
 }

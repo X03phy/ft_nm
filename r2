@@ -1,4 +1,3 @@
-0000000000000000 a 
 000000000000038c r __abi_tag
                  U access@GLIBC_2.2.5
 000000000000a28e t access_path
@@ -9,16 +8,10 @@
 0000000000003e5b T add_to_token_list
 0000000000002e55 T and_brain
 00000000000062b1 T assing_type
-0000000000000000 a ast.c
-0000000000000000 a ast_utils2.c
-0000000000000000 a ast_utils3.c
-0000000000000000 a ast_utils.c
 0000000000014010 B __bss_start
 000000000000c28e t btree_apply_prefix
 0000000000014020 b buffer.0
 00000000000087b7 T cd
-0000000000000000 a cd.c
-0000000000000000 a cd_utils.c
 00000000000094a0 T char_swap
                  U chdir@GLIBC_2.2.5
 000000000000a36b t check_access
@@ -38,14 +31,10 @@
 0000000000006b19 T clean_parenthesis
 00000000000030d8 T clean_parser
 0000000000007cbe T clean_quotes
-0000000000000000 a clear.c
-0000000000000000 a clear.c
 00000000000023de T clear_here_doc
 000000000000243e T clear_minishell
                  U closedir@GLIBC_2.2.5
                  U close@GLIBC_2.2.5
-0000000000000000 a command_node.c
-0000000000000000 a command_node_utils.c
 0000000000014018 b completed.0
 0000000000006117 T construct
 00000000000095d3 T copy_add_env
@@ -61,8 +50,6 @@
 000000000000b72b t create_fd
 000000000000c189 t create_hd
 000000000000787a T create_operator_node
-0000000000000000 a crtstuff.c
-0000000000000000 a crtstuff.c
                  w __cxa_finalize@GLIBC_2.2.5
 0000000000014000 D __data_start
 0000000000014000 W data_start
@@ -70,69 +57,47 @@
 00000000000014d0 t deregister_tm_clones
 0000000000002394 t destroy_hd
 000000000000e175 T dll_add_back
-0000000000000000 a dll_add_back.c
 000000000000e2c2 T dll_clear
-0000000000000000 a dll_clear.c
 000000000000e3a9 T dll_insert
-0000000000000000 a dll_insert.c
 000000000000e268 T dll_new
-0000000000000000 a dll_new.c
 000000000000e32c T dll_size
-0000000000000000 a dll_size.c
 0000000000001540 t __do_global_dtors_aux
 0000000000013ca0 d __do_global_dtors_aux_fini_array_entry
 0000000000014008 D __dso_handle
                  U dup2@GLIBC_2.2.5
 0000000000008bc2 T duplicate_env_without_var
 0000000000013ca8 d _DYNAMIC
-0000000000000000 a echo.c
 0000000000014010 D _edata
 0000000000014028 B _end
-0000000000000000 a env.c
-0000000000000000 a env.c
-0000000000000000 a env_utils.c
 000000000000bf8b T error_message
 0000000000002fae T error_parsing
 000000000000bfee T execute_ast
 000000000000a806 T execute_builtin
 0000000000008998 T execute_cd
 000000000000a0c9 T execute_command
-0000000000000000 a execute_command.c
-0000000000000000 a execute_command_utils1.c
 000000000000805a T execute_echo
 00000000000081f8 T execute_env
 00000000000084a5 T execute_exit
 0000000000009132 T execute_export
-0000000000000000 a execute_no_path.c
-0000000000000000 a execute_path.c
 0000000000008106 T execute_pwd
 0000000000008cb3 T execute_unset
                  U execve@GLIBC_2.2.5
-0000000000000000 a exit.c
                  U exit@GLIBC_2.2.5
 0000000000008402 T exit_too_many_args
 00000000000054b3 T expand_classic
 0000000000005312 T expand_classic2
 000000000000478e T expander
-0000000000000000 a expander.c
-0000000000000000 a expander_list_manipulation.c
 0000000000004dba T expander_quote_brain
-0000000000000000 a expander_utils.c
 0000000000004fa1 T expand_last_error
 0000000000005174 T expand_pid
 0000000000004365 T expand_pls
 0000000000005f94 T expand_tilde
 0000000000005e5f T expand_tilde_pls
 000000000000456b T expand_token
-0000000000000000 a expand_vars.c
 00000000000059b7 T expand_wildcard_pls
 0000000000005b5b T expand_wildcards
-0000000000000000 a export.c
 0000000000008fac T export_loop
 00000000000094d7 T export_sort
-0000000000000000 a export_sort.c
-0000000000000000 a export_utils1.c
-0000000000000000 a export_utils2.c
 00000000000077ea T extractcmd
 00000000000040d7 T extract_quoted
                  U fileno@GLIBC_2.2.5
@@ -144,7 +109,6 @@
 000000000000e106 t finish
 000000000000aaf8 t first_child
 000000000000ac2a T first_parent
-0000000000000000 a first_parent.c
 0000000000006d9c T first_split
                  U fork@GLIBC_2.2.5
 0000000000001580 t frame_dummy
@@ -157,84 +121,47 @@
 000000000000d42b t free_split
 00000000000042be T free_token_list
 000000000000ce68 T ft_atoi
-0000000000000000 a ft_atoi.c
 000000000000dc83 T ft_atol
-0000000000000000 a ft_atol.c
 000000000000e0b1 T ft_btree_create_node
-0000000000000000 a ft_btree_create_node.c
 000000000000ca86 T ft_bzero
-0000000000000000 a ft_bzero.c
 000000000000cf5e T ft_calloc
-0000000000000000 a ft_calloc.c
 000000000000d82e T ft_close
-0000000000000000 a ft_close.c
 000000000000db6c T ft_count_char_in_str
-0000000000000000 a ft_count_char_in_str.c
 000000000000c46b t ft_free_all
 000000000000d863 T ft_free_double_ptr
-0000000000000000 a ft_free_double_ptr.c
 000000000000d8e9 T ft_free_simple_ptr
-0000000000000000 a ft_free_simple_ptr.c
 000000000000c61a t ft_get_line
 000000000000ca0f T ft_isalnum
-0000000000000000 a ft_isalnum.c
 000000000000e414 T ft_isalpha
-0000000000000000 a ft_isalpha.c
 000000000000c9ea T ft_isdigit
-0000000000000000 a ft_isdigit.c
 000000000000dbb5 T ft_is_in_charset
-0000000000000000 a ft_is_in_charset.c
 000000000000c99b T ft_isline
 000000000000dd85 T ft_islong
-0000000000000000 a ft_islong.c
 000000000000d929 T ft_isspace
-0000000000000000 a ft_isspace.c
 000000000000d671 T ft_itoa
-0000000000000000 a ft_itoa.c
 000000000000d954 T ft_max
-0000000000000000 a ft_max.c
 000000000000cabf T ft_memmove
-0000000000000000 a ft_memmove.c
 000000000000c6d8 t ft_modify_buffer
 000000000000d76e T ft_putchar_fd
-0000000000000000 a ft_putchar_fd.c
 000000000000d7f8 T ft_putendl_fd
-0000000000000000 a ft_putendl_fd.c
 000000000000d79b T ft_putstr_fd
-0000000000000000 a ft_putstr_fd.c
 000000000000c4e0 t ft_read_save
 000000000000d4f6 T ft_split
-0000000000000000 a ft_split.c
 000000000000cc24 T ft_strchr
-0000000000000000 a ft_strchr.c
 000000000000daed T ft_strcmp
-0000000000000000 a ft_strcmp.c
 000000000000df0c T ft_strcpy
-0000000000000000 a ft_strcpy.c
 000000000000cfe0 T ft_strdup
-0000000000000000 a ft_strdup.c
 000000000000dc18 T ft_str_is_only_charset
-0000000000000000 a ft_str_is_only_charset.c
 000000000000d144 T ft_strjoin
-0000000000000000 a ft_strjoin.c
 000000000000cb91 T ft_strlcpy
-0000000000000000 a ft_strlcpy.c
 000000000000ca48 T ft_strlen
-0000000000000000 a ft_strlen.c
 000000000000cccb T ft_strncmp
-0000000000000000 a ft_strncmp.c
 000000000000cd77 T ft_strnstr
-0000000000000000 a ft_strnstr.c
 000000000000cc73 T ft_strrchr
-0000000000000000 a ft_strrchr.c
 000000000000d974 T ft_str_three_join
-0000000000000000 a ft_str_three_join.c
 000000000000d2a9 T ft_strtrim
-0000000000000000 a ft_strtrim.c
 000000000000d083 T ft_substr
-0000000000000000 a ft_substr.c
 000000000000df80 T ft_tabdup
-0000000000000000 a ft_tabdup.c
 0000000000005d67 T get_all_files
 000000000000b093 t get_child_info
 000000000000760c T get_cmd_array
@@ -256,8 +183,6 @@
 0000000000001fde T get_name
 000000000000c38b T get_name_here_doc
 000000000000c81a T get_next_line
-0000000000000000 a get_next_line.c
-0000000000000000 a get_next_line_utils.c
 0000000000009d74 T get_outfile
 00000000000037e4 T get_quoted
 0000000000009df8 T get_redirections
@@ -277,14 +202,9 @@
 000000000000a499 T handle_path
 000000000000729b T handle_redirs
 0000000000007a04 T handle_wildcards
-0000000000000000 a here_docs.c
-0000000000000000 a here_docs_utils.c
-0000000000000000 a infile.c
 000000000000b146 T infinite_parent
-0000000000000000 a infinite_parent.c
 0000000000001000 T _init
 0000000000001d59 T init
-0000000000000000 a init.c
 00000000000019dc T init_config
 0000000000001e72 T init_environnement
 0000000000001abc T init_no_env
@@ -306,42 +226,30 @@
                  w _ITM_registerTMCloneTable
 000000000000b442 t last_child
 000000000000b599 T last_parent
-0000000000000000 a last_parent.c
 000000000001401c B last_signal_received
 0000000000003632 T lexer
-0000000000000000 a lexer.c
-0000000000000000 a lexer_utils.c
                  U __libc_start_main@GLIBC_2.34
 0000000000006766 T list_contain_operator
 00000000000069a8 T list_contain_parenthesis
 00000000000066c6 T list_contain_pipe
 000000000000c094 t loop_hd
 0000000000001589 T main
-0000000000000000 a main.c
                  U malloc@GLIBC_2.2.5
 000000000000468e T manage_files
 00000000000056e3 T match_pattern
 000000000000aedb t mid_child
-0000000000000000 a move_in_ast.c
 00000000000065fe T multiple_and_or
 00000000000089de T new_env_size
 0000000000002611 T non_interactive_handler
 0000000000004009 T no_quotes
                  U opendir@GLIBC_2.2.5
                  U open@GLIBC_2.2.5
-0000000000000000 a operators.c
 0000000000001e38 T original_env_size
-0000000000000000 a outfile.c
 0000000000002edf T parenthesis_brain
 0000000000003133 T parse_cmd
-0000000000000000 a parser.c
-0000000000000000 a parsing_utils.c
                  U perror@GLIBC_2.2.5
                  U pipe@GLIBC_2.2.5
-0000000000000000 a pipe_node.c
 000000000000ba93 T pipes
-0000000000000000 a pipes.c
-0000000000000000 a pipes_utils.c
 00000000000076ee T populate_cmd_array
 0000000000008a8e T populate_new_env
 000000000000929b T print_cd_err
@@ -356,13 +264,10 @@
 000000000000273c T ptr_to_node
                  U putchar@GLIBC_2.2.5
                  U puts@GLIBC_2.2.5
-0000000000000000 a pwd.c
 0000000000003f7e T quote_brain
-0000000000000000 a quotes.c
                  U readdir@GLIBC_2.2.5
                  U read@GLIBC_2.2.5
                  U readline
-0000000000000000 a redirections.c
 00000000000026f1 T refresh_signal
 0000000000001500 t register_tm_clones
 0000000000007b72 T remove_quotes
@@ -370,26 +275,18 @@
                  U rl_on_new_line
                  U rl_redisplay
                  U rl_replace_line
-0000000000000000 a rules1.c
-0000000000000000 a rules2.c
 0000000000006a4b T same_parenthesis
-0000000000000000 a Scrt1.o
 00000000000057f6 T search_for_matching_files
 000000000000205e T search_var
 0000000000006e73 T second_split
                  U sigaction@GLIBC_2.2.5
                  U signal@GLIBC_2.2.5
-0000000000000000 a signals.c
 0000000000002592 T signals_interactive_mode
 0000000000002668 T signals_non_interactive_mode
 000000000000bb2b t simple_child
 000000000000bebb T simple_command
-0000000000000000 a simple_command.c
 000000000000bcf3 t simple_parent
 0000000000003a13 T spliter
-0000000000000000 a spliter.c
-0000000000000000 a spliter_utils.c
-0000000000000000 a spliter_utils_quotes.c
                  U __stack_chk_fail@GLIBC_2.4
 00000000000014a0 T _start
                  U stat@GLIBC_2.33
@@ -398,13 +295,9 @@
 0000000000004af2 T suppress2
 0000000000004b98 T suppress_element
 00000000000085c8 T tab_size
-0000000000000000 a tilde.c
 0000000000014010 D __TMC_END__
                  U unlink@GLIBC_2.2.5
-0000000000000000 a unset.c
 00000000000033ad T validate
 0000000000003507 T valid_token_list
                  U waitpid@GLIBC_2.2.5
-0000000000000000 a wildcards.c
-0000000000000000 a wildcards_utils.c
                  U write@GLIBC_2.2.5

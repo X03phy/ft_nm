@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
+/*   By: x03phy <x03phy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 23:32:32 by x03phy            #+#    #+#             */
-/*   Updated: 2025/10/17 13:14:40 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/10/19 20:17:37 by x03phy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int parse_input( t_opts *opts, int argc, char **argv )
 {
 	t_list *new;
 
+	new = NULL;
 	ft_bzero( opts, sizeof( t_opts ) );
 
 	for ( int i = 1; i < argc; i += 1 )
