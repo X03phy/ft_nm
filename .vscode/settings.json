@@ -28,6 +28,7 @@
 		"typeinfo": "c",
 		"char.h": "c",
 		"ar.h": "c",
-		"memory.h": "c"
+		"memory.h": "c",
+		"string": "c"
 	}
 }
