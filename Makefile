@@ -1,7 +1,7 @@
 NAME=ft_nm
 
 CC=gcc
-CFLAGS=-Wall -Werror -Wextra -g -MMD
+CFLAGS=-g -MMD
 
 SRC_DIR=src
 BUILD=.build

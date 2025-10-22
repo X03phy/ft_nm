@@ -6,7 +6,7 @@
 /*   By: x03phy <x03phy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 23:32:37 by x03phy            #+#    #+#             */
-/*   Updated: 2025/10/19 22:35:54 by x03phy           ###   ########.fr       */
+/*   Updated: 2025/10/22 10:33:53 by x03phy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,64 +30,79 @@ static int is_file_little_endian( const Elf64_Ehdr *elf_header )
 	return ( -1 );
 }
 
-static char get_symbol_type64( Elf64_Sym sym, Elf64_Ehdr *elf_header,
-										 Elf64_Shdr *sections )
+#include <stdio.h>
+static void print_type_debug( uint32_t st_type, uint32_t sh_type, uint32_t st_bind, uint64_t sh_flags, const char *name)
 {
-	uint32_t type, bind;
-	char		c;
-	uint16_t shnum, shndx;
-	uint64_t flags;
+  dprintf(1, "section name: %s\n", name);
+  dprintf(1, "st_type: %d\n", st_type);
+  dprintf(1, "st_bind: %d\n", st_bind);
+  dprintf(1, "sh_type: %d\n", sh_type);
+  dprintf(1, "sh_flags: %lx\n", sh_flags);
+}
 
-	type = ELF64_ST_TYPE( sym.st_info );
-	bind = ELF64_ST_BIND( sym.st_info );
 
-	if ( bind == STB_GNU_UNIQUE ) // 
+static char get_symbol_type64( Elf64_Sym sym, Elf64_Ehdr *elf_header, Elf64_Shdr *sections, const char *name )
+{
+	char c;
+	uint32_t st_type, st_bind, sh_type;
+	uint16_t e_shnum, st_shndx;
+	uint64_t sh_flags;
+
+	st_type = ELF64_ST_TYPE( sym.st_info );
+	st_bind = ELF64_ST_BIND( sym.st_info );
+	e_shnum = elf_header->e_shnum;
+	st_shndx = sym.st_shndx;
+
+	if ( st_bind == STB_GNU_UNIQUE ) // 
 		return ( 'u' );
-	if ( type == STT_GNU_IFUNC ) // 
+	if ( st_type == STT_GNU_IFUNC ) // 
 		return ( 'i' );
 
-	shndx = sym.st_shndx;
-
-	if ( bind == STB_WEAK ) // 
-	{
-		if ( type == STT_OBJECT )
-			return ( shndx == SHN_UNDEF ? 'v' : 'V' );
-		return ( shndx == SHN_UNDEF ? 'w' : 'W' );
-	}
-
 	c = '?';
-	shnum = elf_header->e_shnum;
 
-	if ( shndx == SHN_UNDEF )
+	if ( st_shndx == SHN_UNDEF )
 		c = 'U';
-
-	else if ( shndx == SHN_ABS )
+	else if ( st_shndx == SHN_ABS )
 		c = 'A';
-
-	else if ( shndx == SHN_COMMON )
+	else if ( st_shndx == SHN_COMMON )
 		c = 'C';
-
-	else if ( shndx < shnum )
+	if ( st_bind == STB_WEAK ) // 
 	{
-		type = sections[shndx].sh_type;
-		flags = sections[shndx].sh_flags;
-
-		if ( type == SHT_NOBITS )
-			c = 'B';
-		else if ( !( flags & SHF_WRITE ) )
-		{
-			if ( flags & SHF_ALLOC && flags & SHF_EXECINSTR )
-				c = 'T';
-			else
-				c = 'R';
-		}
-		else if ( flags & SHF_EXECINSTR )
-			c = 'T';
-		else
-			c = 'D';
+		if ( st_type == STT_OBJECT )
+			return ( st_shndx == SHN_UNDEF ? 'v' : 'V' );
+		return ( st_shndx == SHN_UNDEF ? 'w' : 'W' );
 	}
 
-	if ( bind == STB_LOCAL && c != '?' )
+	// .debug_abbrev
+	else if ( st_shndx < e_shnum )
+	{
+		sh_type = sections[st_shndx].sh_type;
+		sh_flags = sections[st_shndx].sh_flags;
+
+		(void)sh_type;
+		(void)sh_flags;
+
+		print_type_debug( st_type, sh_type, st_bind, sh_flags, name );
+	}
+	// 	type = sections[st_shndx].sh_type;
+	// 	flags = sections[st_shndx].sh_flags;
+
+	// 	if ( type == SHT_NOBITS )
+	// 		c = 'B';
+	// 	else if ( !( flags & SHF_WRITE ) )
+	// 	{
+	// 		if ( flags & SHF_ALLOC && flags & SHF_EXECINSTR )
+	// 			c = 'T';
+	// 		else
+	// 			c = 'R';
+	// 	}
+	// 	else if ( flags & SHF_EXECINSTR )
+	// 		c = 'T';
+	// 	else
+	// 		c = 'D';
+	// }
+
+	if ( st_bind == STB_LOCAL && c != '?' )
 		c += 32;
 
 	return ( c );
@@ -132,9 +147,30 @@ int process_elf64( void *map, t_list **symbols )
 					continue;
 
 				symbol->address = syms[j].st_value;
-				symbol->type =
-						get_symbol_type64( syms[j], elf_header, sections );
-				symbol->name = strtab + syms[j].st_name;
+
+				uint32_t st_type = ELF64_ST_TYPE(syms[j].st_info);
+				if (st_type == STT_SECTION)
+				{
+					// le nom vient de la table des noms de sections (.shstrtab)
+					uint16_t sh_index = syms[j].st_shndx;
+					if (sh_index < elf_header->e_shnum)
+					{
+						Elf64_Shdr *shstrtab = &sections[elf_header->e_shstrndx];
+						char *shstrtab_base = (char *)map + shstrtab->sh_offset;
+						symbol->name = shstrtab_base + sections[sh_index].sh_name;
+					}
+					else
+						symbol->name = "(invalid section)";
+				}
+				else
+				{
+					// nom normal venant de .strtab
+					if (syms[j].st_name >= sections[sections[i].sh_link].sh_size)
+						continue;
+					symbol->name = (char *)(strtab + syms[j].st_name);
+				}
+
+				symbol->type = get_symbol_type64( syms[j], elf_header, sections, symbol->name );
 
 				new = ft_lstnew( symbol );
 				if ( !new )
