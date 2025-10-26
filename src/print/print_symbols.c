@@ -6,7 +6,7 @@
 /*   By: x03phy <x03phy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 12:38:44 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/10/19 23:52:38 by x03phy           ###   ########.fr       */
+/*   Updated: 2025/10/26 14:52:19 by x03phy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void print_symbols( t_opts *opts, t_list *symbols )
 	{
 		symbol = ( t_symbol * ) ( symbols->content );
 
-		if ( symbol->name && symbol->name[0] )
+		if ( symbol->name )
 		{
 			char t = symbol->type;
 			if ( flag_active( opts->flags, FLAG_U ) )
@@ -111,7 +111,7 @@ void print_symbols( t_opts *opts, t_list *symbols )
 			}
 			else if ( !flag_active( opts->flags, FLAG_A ) )
 			{
-				if ( t == 'a' || t == 'A' )
+				if ( t == 'a' || t == 'A' || t == 'N' || symbol->name[0] == '.' )
 				{
 					symbols = symbols->next;
 					continue;

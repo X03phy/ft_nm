@@ -6,14 +6,15 @@
 /*   By: x03phy <x03phy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 23:32:37 by x03phy            #+#    #+#             */
-/*   Updated: 2025/10/22 10:33:53 by x03phy           ###   ########.fr       */
+/*   Updated: 2025/10/26 14:37:04 by x03phy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_nm.h"
 
-/* For ft_dprintf() */
-#include "ft_printf.h"
+#include "ft_printf.h" /* For ft_dprintf() */
+
+#include "string.h" /* For ft_strncmp() */
 
 #include <stdio.h>
 
@@ -30,81 +31,73 @@ static int is_file_little_endian( const Elf64_Ehdr *elf_header )
 	return ( -1 );
 }
 
-#include <stdio.h>
-static void print_type_debug( uint32_t st_type, uint32_t sh_type, uint32_t st_bind, uint64_t sh_flags, const char *name)
-{
-  dprintf(1, "section name: %s\n", name);
-  dprintf(1, "st_type: %d\n", st_type);
-  dprintf(1, "st_bind: %d\n", st_bind);
-  dprintf(1, "sh_type: %d\n", sh_type);
-  dprintf(1, "sh_flags: %lx\n", sh_flags);
-}
-
-
 static char get_symbol_type64( Elf64_Sym sym, Elf64_Ehdr *elf_header, Elf64_Shdr *sections, const char *name )
 {
 	char c;
 	uint32_t st_type, st_bind, sh_type;
-	uint16_t e_shnum, st_shndx;
+	uint16_t st_shndx;
 	uint64_t sh_flags;
 
-	st_type = ELF64_ST_TYPE( sym.st_info );
-	st_bind = ELF64_ST_BIND( sym.st_info );
-	e_shnum = elf_header->e_shnum;
+	st_type = ELF64_ST_TYPE(sym.st_info);
+	st_bind = ELF64_ST_BIND(sym.st_info);
 	st_shndx = sym.st_shndx;
 
-	if ( st_bind == STB_GNU_UNIQUE ) // 
+	// Special cases GNU
+	if ( st_bind == STB_GNU_UNIQUE )
 		return ( 'u' );
-	if ( st_type == STT_GNU_IFUNC ) // 
+	if ( st_type == STT_GNU_IFUNC )
 		return ( 'i' );
+
+	// Symboles de section de débogage
+	if ( st_type == STT_SECTION && name && ft_strncmp( name, ".debug", 6 ) == 0 )
+		return ( 'N' );
 
 	c = '?';
 
+	// Undefine, absolute or common
 	if ( st_shndx == SHN_UNDEF )
 		c = 'U';
 	else if ( st_shndx == SHN_ABS )
 		c = 'A';
 	else if ( st_shndx == SHN_COMMON )
 		c = 'C';
-	if ( st_bind == STB_WEAK ) // 
+
+	// Weak symbol
+	if ( st_bind == STB_WEAK )
 	{
 		if ( st_type == STT_OBJECT )
 			return ( st_shndx == SHN_UNDEF ? 'v' : 'V' );
 		return ( st_shndx == SHN_UNDEF ? 'w' : 'W' );
 	}
 
-	// .debug_abbrev
-	else if ( st_shndx < e_shnum )
+	// Analyse the section if the index is valid
+	else if (st_shndx < elf_header->e_shnum && c == '?')
 	{
 		sh_type = sections[st_shndx].sh_type;
 		sh_flags = sections[st_shndx].sh_flags;
 
-		(void)sh_type;
-		(void)sh_flags;
-
-		print_type_debug( st_type, sh_type, st_bind, sh_flags, name );
+		if ( sh_type == SHT_NOBITS )
+			c = 'B';
+		// Read-only section
+		else if ( !( sh_flags & SHF_WRITE ) )
+		{
+			if ( ( sh_flags & SHF_ALLOC ) && ( sh_flags & SHF_EXECINSTR ) )
+				c = 'T';  // Executable code
+			else
+				c = 'R';  // Read-only data
+		}
+		// Executable section
+		else if ( sh_flags & SHF_EXECINSTR )
+			c = 'T';
+		// Modif data section
+		else if ( sh_flags & SHF_WRITE )
+			c = 'D';
 	}
-	// 	type = sections[st_shndx].sh_type;
-	// 	flags = sections[st_shndx].sh_flags;
 
-	// 	if ( type == SHT_NOBITS )
-	// 		c = 'B';
-	// 	else if ( !( flags & SHF_WRITE ) )
-	// 	{
-	// 		if ( flags & SHF_ALLOC && flags & SHF_EXECINSTR )
-	// 			c = 'T';
-	// 		else
-	// 			c = 'R';
-	// 	}
-	// 	else if ( flags & SHF_EXECINSTR )
-	// 		c = 'T';
-	// 	else
-	// 		c = 'D';
-	// }
-
+	// Convert to lower cases for local symbols
 	if ( st_bind == STB_LOCAL && c != '?' )
 		c += 32;
-
+	
 	return ( c );
 }
 

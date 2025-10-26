@@ -6,7 +6,7 @@
 /*   By: x03phy <x03phy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 23:32:19 by x03phy            #+#    #+#             */
-/*   Updated: 2025/10/19 23:37:15 by x03phy           ###   ########.fr       */
+/*   Updated: 2025/10/22 10:52:10 by x03phy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef struct s_symbol
 	uint64_t address;
 	char type;
 	char *name;
+	char *section_name;
 } t_symbol;
 
 typedef struct s_opts
