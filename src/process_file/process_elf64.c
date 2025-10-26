@@ -6,7 +6,7 @@
 /*   By: x03phy <x03phy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 23:32:37 by x03phy            #+#    #+#             */
-/*   Updated: 2025/10/26 19:03:00 by x03phy           ###   ########.fr       */
+/*   Updated: 2025/10/26 19:11:41 by x03phy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,6 @@ static char get_symbol_type64( Elf64_Sym sym, Elf64_Ehdr *elf_header, Elf64_Shdr
 	if ( st_type == STT_GNU_IFUNC )
 		return ( 'i' );
 
-	// Symboles de section de débogage
-	if ( st_type == STT_SECTION && name && ft_strncmp( name, ".debug", 6 ) == 0 )
-		return ( 'N' );
-
 	c = '?';
 
 	// Undefine, absolute or common
@@ -66,7 +62,7 @@ static char get_symbol_type64( Elf64_Sym sym, Elf64_Ehdr *elf_header, Elf64_Shdr
 	}
 
 	// Analyse the section if the index is valid
-	else if (st_shndx < elf_header->e_shnum && c == '?')
+	else if ( st_shndx < elf_header->e_shnum && c == '?' )
 	{
 		sh_type = sections[st_shndx].sh_type;
 		sh_flags = sections[st_shndx].sh_flags;
@@ -85,7 +81,7 @@ static char get_symbol_type64( Elf64_Sym sym, Elf64_Ehdr *elf_header, Elf64_Shdr
 		else if ( sh_flags & SHF_EXECINSTR )
 			c = 'T';
 		// Modif data section
-		else if ( sh_flags & SHF_WRITE )
+		else
 			c = 'D';
 	}
 
