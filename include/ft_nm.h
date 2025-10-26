@@ -6,7 +6,7 @@
 /*   By: x03phy <x03phy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 23:32:19 by x03phy            #+#    #+#             */
-/*   Updated: 2025/10/22 10:52:10 by x03phy           ###   ########.fr       */
+/*   Updated: 2025/10/26 18:13:19 by x03phy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static inline int flag_active( int n, int f )
 }
 
 /* Print symbols */
-void print_symbols( t_opts *opts, t_list *symbols );
+void print_symbols( t_opts *opts, t_list *symbols, int is64 );
 
 /* Convert endian */
 void convert_elf_header64_endian( Elf64_Ehdr *elf_header, int little );

@@ -6,7 +6,7 @@
 /*   By: x03phy <x03phy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 23:32:39 by x03phy            #+#    #+#             */
-/*   Updated: 2025/10/20 09:53:49 by x03phy           ###   ########.fr       */
+/*   Updated: 2025/10/26 18:15:02 by x03phy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,12 @@ int process_file_and_print( t_opts *opts, const char *filename, size_t size, voi
 
 	if ( symbols )
 	{
-			if ( opts->nb_files > 1 )
-		ft_dprintf( 1, "\n%s:\n", filename );
-		print_symbols( opts, symbols );
+		if ( opts->nb_files > 1 )
+			ft_dprintf( 1, "\n%s:\n", filename );
+		if ( e_ident[EI_CLASS] == ELFCLASS64 )
+			print_symbols( opts, symbols, 1 );
+		else
+			print_symbols( opts, symbols, 0 );
 	}
 	else
 		ft_dprintf( 2, "ft_nm: %s: no symbol\n", filename );

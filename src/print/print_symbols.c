@@ -6,7 +6,7 @@
 /*   By: x03phy <x03phy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 12:38:44 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/10/26 14:52:19 by x03phy           ###   ########.fr       */
+/*   Updated: 2025/10/26 18:19:13 by x03phy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 static int symbol_name_cmp( t_symbol *s1, t_symbol *s2 )
 {
 	size_t i = 0, j = 0;
-	char   l1, l2;
+	char l1, l2;
 
 	while ( s1->name[i] && s2->name[j] )
 	{
@@ -45,35 +45,55 @@ static int symbol_name_cmp( t_symbol *s1, t_symbol *s2 )
 	return ( s1->name[i] - s2->name[j] );
 }
 
-static void	write_hex64(uint64_t n)
+static void	write_hex64( uint64_t n )
 {
-	char	hex[16];
-	int		i;
+	char hex[16];
+	int i;
 
-	for (i = 0; i < 16; i++)
+	for ( i = 0; i < 16; i += 1 )
 		hex[i] = '0';
 	i = 15;
-	while (n)
+	while ( n )
 	{
 		uint8_t d = n % 16;
-		hex[i--] = (d < 10) ? d + '0' : d - 10 + 'a';
+		hex[i--] = ( d < 10 ) ? d + '0' : d - 10 + 'a';
 		n /= 16;
 	}
-	write(1, hex, 16);
+	write( 1, hex, 16 );
 }
 
-void	print_symbol(uint64_t addr, char type, const char *name)
+static void	write_hex32( uint32_t n )
 {
-	write_hex64(addr);
-	write(1, " ", 1);
-	write(1, &type, 1);
-	write(1, " ", 1);
-	while (*name)
-		write(1, name++, 1);
-	write(1, "\n", 1);
+	char hex[8];
+	int i;
+
+	for ( i = 0; i < 8; i += 1 )
+		hex[i] = '0';
+	i = 7;
+	while ( n )
+	{
+		uint8_t d = n % 16;
+		hex[i--] = ( d < 10 ) ? d + '0' : d - 10 + 'a';
+		n /= 16;
+	}
+	write( 1, hex, 8 );
 }
 
-void print_symbols( t_opts *opts, t_list *symbols )
+static void	print_symbol( uint64_t addr, char type, const char *name, int is_64 )
+{
+	if ( is_64 )
+		write_hex64( addr );
+	else
+		write_hex32( addr );
+	write( 1, " ", 1 );
+	write( 1, &type, 1 );
+	write( 1, " ", 1 );
+	while ( *name )
+		write( 1, name++, 1 );
+	write( 1, "\n", 1 );
+}
+
+void print_symbols( t_opts *opts, t_list *symbols, int is64 )
 {
 	t_symbol *symbol;
 
@@ -118,9 +138,14 @@ void print_symbols( t_opts *opts, t_list *symbols )
 				}
 			}
 			if ( t == 'w' || t == 'U' )
-				ft_dprintf( 1, "                 %c %s\n", t, symbol->name );
+			{
+				if ( is64 )
+					ft_dprintf( 1, "                 %c %s\n", t, symbol->name );
+				else
+					ft_dprintf( 1, "         %c %s\n", t, symbol->name );
+			}
 			else
-				print_symbol( symbol->address, t, symbol->name );
+				print_symbol( symbol->address, t, symbol->name, is64 );
 		}
 		symbols = symbols->next;
 	}

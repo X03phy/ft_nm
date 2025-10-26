@@ -6,7 +6,7 @@
 /*   By: x03phy <x03phy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/19 01:18:22 by x03phy            #+#    #+#             */
-/*   Updated: 2025/10/20 09:41:29 by x03phy           ###   ########.fr       */
+/*   Updated: 2025/10/26 18:13:51 by x03phy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,7 +178,10 @@ int process_archive_and_print( t_opts *opts, void *map, size_t size )
 			if ( symbols )
 			{
 				ft_dprintf( 1, "\n%s:\n", member_filename );
-				print_symbols( opts, symbols );
+				if ( e_ident[EI_CLASS] == ELFCLASS64 )
+					print_symbols( opts, symbols, 1 );
+				else
+					print_symbols( opts, symbols, 0 );
 			}
 			else
 				ft_dprintf( 2, "ft_nm: %s: no symbol\n", member_filename );
