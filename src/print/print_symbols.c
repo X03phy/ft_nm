@@ -6,13 +6,14 @@
 /*   By: x03phy <x03phy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 12:38:44 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/10/26 19:04:06 by x03phy           ###   ########.fr       */
+/*   Updated: 2025/10/26 19:08:22 by x03phy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_nm.h"
 #include <stdio.h>
 #include "ft_printf.h"
+#include "fd.h"
 #include "char.h"
 #include "string.h"
 #include <unistd.h>
@@ -85,12 +86,11 @@ static void	print_symbol( uint64_t addr, char type, const char *name, int is_64 
 		write_hex64( addr );
 	else
 		write_hex32( addr );
-	write( 1, " ", 1 );
-	write( 1, &type, 1 );
-	write( 1, " ", 1 );
-	while ( *name )
-		write( 1, name++, 1 );
-	write( 1, "\n", 1 );
+	ft_putchar_fd( ' ', 1 );
+	ft_putchar_fd( type, 1 );
+	ft_putchar_fd( ' ', 1 );
+	ft_putstr_fd( name, 1 );
+	ft_putchar_fd( '\n', 1 );
 }
 
 void print_symbols( t_opts *opts, t_list *symbols, int is64 )

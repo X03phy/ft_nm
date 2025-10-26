@@ -6,7 +6,7 @@
 /*   By: x03phy <x03phy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 23:32:08 by x03phy            #+#    #+#             */
-/*   Updated: 2025/10/26 18:54:59 by x03phy           ###   ########.fr       */
+/*   Updated: 2025/10/26 19:05:44 by x03phy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ static int ft_nm( t_opts *opts, const char *filename )
 	print_symbols( opts, symbols, ( ( ( unsigned char * ) map )[EI_CLASS] == ELFCLASS64 ) );
 
 	cleanup_map( fd, map, st.st_size );
-	ft_lstfree( &symbols );
+	ft_lstclear( &symbols, free );
 	return ( 1 );
 }
 
