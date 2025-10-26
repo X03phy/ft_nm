@@ -6,7 +6,7 @@
 /*   By: x03phy <x03phy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 23:32:08 by x03phy            #+#    #+#             */
-/*   Updated: 2025/10/26 19:05:44 by x03phy           ###   ########.fr       */
+/*   Updated: 2025/10/26 19:18:11 by x03phy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ static int ft_nm( t_opts *opts, const char *filename )
 	if ( !init_map( filename, &fd, &st, &map ) )
 		return ( 0 );
 	symbols = NULL;
-	if ( !process_file( &symbols, filename, st.st_size, map ) )
+	if ( !process_file( &symbols, filename, map ) )
 	{
 		cleanup_map( fd, map, st.st_size );
 		ft_lstfree( &symbols );

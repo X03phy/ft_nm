@@ -6,7 +6,7 @@
 /*   By: x03phy <x03phy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 23:32:37 by x03phy            #+#    #+#             */
-/*   Updated: 2025/10/26 19:11:41 by x03phy           ###   ########.fr       */
+/*   Updated: 2025/10/26 19:27:34 by x03phy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int is_file_little_endian( const Elf64_Ehdr *elf_header )
 	return ( -1 );
 }
 
-static char get_symbol_type64( Elf64_Sym sym, Elf64_Ehdr *elf_header, Elf64_Shdr *sections, const char *name )
+static char get_symbol_type64( Elf64_Sym sym, Elf64_Ehdr *elf_header, Elf64_Shdr *sections )
 {
 	char c;
 	uint32_t st_type, st_bind, sh_type;
@@ -97,6 +97,7 @@ int process_elf64( t_list **symbols, void *map )
 	Elf64_Ehdr *elf_header;
 	int little;
 	Elf64_Shdr *sections;
+	char *shstrtab;
 	Elf64_Sym *syms;
 	char *strtab;
 	size_t sym_count;
@@ -113,6 +114,7 @@ int process_elf64( t_list **symbols, void *map )
 
 	sections = ( Elf64_Shdr * ) ( map + elf_header->e_shoff );
 	convert_elf_sections64_endian( sections, elf_header->e_shnum, little );
+	shstrtab = ( char * ) ( map + sections[elf_header->e_shstrndx].sh_offset );
 
 	for ( uint16_t i = 0; i < elf_header->e_shnum; i += 1 )
 	{
@@ -131,13 +133,14 @@ int process_elf64( t_list **symbols, void *map )
 					continue;
 
 				symbol->address = syms[j].st_value; /* Get the address */
-
-				// Get name from .strtab
-				if ( syms[j].st_name >= sections[sections[i].sh_link].sh_size )
-					continue;
-				symbol->name = ( char * )( strtab + syms[j].st_name );
-
-				symbol->type = get_symbol_type64( syms[j], elf_header, sections, symbol->name );
+				if ( ELF64_ST_TYPE(syms[j].st_info) == STT_SECTION &&
+					syms[j].st_shndx < elf_header->e_shnum )
+				{
+					symbol->name = shstrtab + sections[syms[j].st_shndx].sh_name;
+				}
+				else
+					symbol->name = strtab + syms[j].st_name;
+				symbol->type = get_symbol_type64( syms[j], elf_header, sections );
 
 				new = ft_lstnew( symbol );
 				if ( !new )

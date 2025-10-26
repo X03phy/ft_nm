@@ -6,7 +6,7 @@
 /*   By: x03phy <x03phy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 23:32:19 by x03phy            #+#    #+#             */
-/*   Updated: 2025/10/26 19:04:04 by x03phy           ###   ########.fr       */
+/*   Updated: 2025/10/26 19:18:02 by x03phy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,9 @@ void convert_elf_sections32_endian( Elf32_Shdr *sections, uint16_t count, int li
 void convert_elf_symbol32_endian( Elf32_Sym *sym, int little );
 
 /* Process */
-int process_elf32( void *map, t_list **symbols );
+int process_elf32( t_list **symbols, void *map );
 int process_elf64( t_list **symbols, void *map );
-int process_file( t_list **symbols, const char *filename, size_t size, void *map );
+int process_file( t_list **symbols, const char *filename, void *map );
 
 /* ft_nm */
 int ft_nm_wrapper( t_opts *opts );
