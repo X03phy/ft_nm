@@ -6,19 +6,14 @@
 /*   By: x03phy <x03phy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 23:32:32 by x03phy            #+#    #+#             */
-/*   Updated: 2025/10/19 20:17:37 by x03phy           ###   ########.fr       */
+/*   Updated: 2025/10/26 18:40:54 by x03phy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_nm.h"
-
 #include "ft_printf.h"
-
-/* For ft_bzero() */
-#include "memory.h"
-
-/* For perror() */
-#include <stdio.h>
+#include "memory.h" /* For ft_bzero() */
+#include <stdio.h> /* For perror() */
 
 int parse_input( t_opts *opts, int argc, char **argv )
 {

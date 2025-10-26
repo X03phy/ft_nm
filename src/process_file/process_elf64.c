@@ -6,26 +6,21 @@
 /*   By: x03phy <x03phy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 23:32:37 by x03phy            #+#    #+#             */
-/*   Updated: 2025/10/26 14:37:04 by x03phy           ###   ########.fr       */
+/*   Updated: 2025/10/26 19:03:00 by x03phy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_nm.h"
-
 #include "ft_printf.h" /* For ft_dprintf() */
-
 #include "string.h" /* For ft_strncmp() */
-
 #include <stdio.h>
 
 static int is_file_little_endian( const Elf64_Ehdr *elf_header )
 {
 	if ( elf_header->e_ident[EI_DATA] == ELFDATA2LSB ) // little endian
 		return ( 1 );
-
 	else if ( elf_header->e_ident[EI_DATA] == ELFDATA2MSB ) // big endian
 		return ( 0 );
-
 	ft_dprintf( 2, "ft_nm: unknown ELF format\n" );
 
 	return ( -1 );
@@ -101,18 +96,18 @@ static char get_symbol_type64( Elf64_Sym sym, Elf64_Ehdr *elf_header, Elf64_Shdr
 	return ( c );
 }
 
-int process_elf64( void *map, t_list **symbols )
+int process_elf64( t_list **symbols, void *map )
 {
 	Elf64_Ehdr *elf_header;
-	int			little;
+	int little;
 	Elf64_Shdr *sections;
-	Elf64_Sym	 *syms;
-	char		  *strtab;
-	size_t		sym_count;
-	t_symbol	*symbol;
+	Elf64_Sym *syms;
+	char *strtab;
+	size_t sym_count;
+	t_symbol *symbol;
 	t_list *new;
 
-	elf_header = (Elf64_Ehdr *) map;
+	elf_header = ( Elf64_Ehdr * ) map;
 
 	little = is_file_little_endian( elf_header );
 	if ( little == -1 )
@@ -120,16 +115,16 @@ int process_elf64( void *map, t_list **symbols )
 
 	convert_elf_header64_endian( elf_header, little );
 
-	sections = (Elf64_Shdr *) ( map + elf_header->e_shoff );
+	sections = ( Elf64_Shdr * ) ( map + elf_header->e_shoff );
 	convert_elf_sections64_endian( sections, elf_header->e_shnum, little );
 
 	for ( uint16_t i = 0; i < elf_header->e_shnum; i += 1 )
 	{
 		if ( sections[i].sh_type == SHT_SYMTAB )
 		{
-			syms = (Elf64_Sym *) ( map + sections[i].sh_offset );
+			syms = ( Elf64_Sym * ) ( map + sections[i].sh_offset );
 			sym_count = sections[i].sh_size / sizeof( Elf64_Sym );
-			strtab = (char *) ( map + sections[sections[i].sh_link].sh_offset );
+			strtab = ( char * ) ( map + sections[sections[i].sh_link].sh_offset );
 
 			for ( size_t j = 1; j < sym_count; j += 1 )
 			{
@@ -139,29 +134,12 @@ int process_elf64( void *map, t_list **symbols )
 				if ( !symbol )
 					continue;
 
-				symbol->address = syms[j].st_value;
+				symbol->address = syms[j].st_value; /* Get the address */
 
-				uint32_t st_type = ELF64_ST_TYPE(syms[j].st_info);
-				if (st_type == STT_SECTION)
-				{
-					// le nom vient de la table des noms de sections (.shstrtab)
-					uint16_t sh_index = syms[j].st_shndx;
-					if (sh_index < elf_header->e_shnum)
-					{
-						Elf64_Shdr *shstrtab = &sections[elf_header->e_shstrndx];
-						char *shstrtab_base = (char *)map + shstrtab->sh_offset;
-						symbol->name = shstrtab_base + sections[sh_index].sh_name;
-					}
-					else
-						symbol->name = "(invalid section)";
-				}
-				else
-				{
-					// nom normal venant de .strtab
-					if (syms[j].st_name >= sections[sections[i].sh_link].sh_size)
-						continue;
-					symbol->name = (char *)(strtab + syms[j].st_name);
-				}
+				// Get name from .strtab
+				if ( syms[j].st_name >= sections[sections[i].sh_link].sh_size )
+					continue;
+				symbol->name = ( char * )( strtab + syms[j].st_name );
 
 				symbol->type = get_symbol_type64( syms[j], elf_header, sections, symbol->name );
 

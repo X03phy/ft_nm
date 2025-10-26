@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   convert_endian64.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
+/*   By: x03phy <x03phy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 23:32:43 by x03phy            #+#    #+#             */
-/*   Updated: 2025/10/14 12:18:16 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/10/26 18:40:31 by x03phy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_nm.h"
-
 #include "ft_bswap.h"
 
 void convert_elf_header64_endian( Elf64_Ehdr *elf_header, int little )

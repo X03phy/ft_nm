@@ -6,7 +6,7 @@
 /*   By: x03phy <x03phy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 12:38:44 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/10/26 18:19:13 by x03phy           ###   ########.fr       */
+/*   Updated: 2025/10/26 19:04:06 by x03phy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static int symbol_name_cmp( t_symbol *s1, t_symbol *s2 )
 		j += 1;
 	}
 
-	if ( s1->name[i] == '\0' && s2->name[j] == '\0' && i < j )
+	if ( s1->name[i] == '\0' && s2->name[j] == '\0' && i < j ) //! idk
 		return ( 1 );
 
 	return ( s1->name[i] - s2->name[j] );

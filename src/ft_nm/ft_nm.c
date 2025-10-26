@@ -6,33 +6,17 @@
 /*   By: x03phy <x03phy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 23:32:08 by x03phy            #+#    #+#             */
-/*   Updated: 2025/10/20 09:50:15 by x03phy           ###   ########.fr       */
+/*   Updated: 2025/10/26 18:54:59 by x03phy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_nm.h"
-
-/* For ft_dprintf() */
-#include "ft_printf.h"
-
-/* For open() */
-#include <fcntl.h>
-
-/* For close() */
-#include <unistd.h>
-
-/* For perror() */
-#include <stdio.h>
-
-/* For errno */
-#include <errno.h>
-
-/* For mmap(), munmap() */
-#include <sys/mman.h>
-
-/*
-** Resource management
-*/
+#include "ft_printf.h" /* For ft_dprintf() */
+#include <fcntl.h> /* For open() */
+#include <unistd.h> /* For close() */
+#include <stdio.h> /* For perror() */
+#include <errno.h> /* For errno */
+#include <sys/mman.h> /* For mmap(), munmap() */
 
 static int init_map( const char *filename, int *fd, struct stat *st, void **map )
 {
@@ -41,7 +25,7 @@ static int init_map( const char *filename, int *fd, struct stat *st, void **map 
 	if ( *fd == -1 )
 	{
 		if ( errno == ENOENT )
-			ft_dprintf( 2, "ft_nm: « %s »: no such file\n", filename ); //! faire gaffe pcq c est pas le bon fichier
+			ft_dprintf( 2, "ft_nm: « %s »: no such file\n", filename );
 		else
 		{
 			ft_dprintf( 2, "ft_nm: %s: ", filename );
@@ -94,26 +78,29 @@ static void cleanup_map( int fd, void *map, size_t size )
 		close( fd );
 }
 
-/*
-** Processing
-*/
-
 static int ft_nm( t_opts *opts, const char *filename )
 {
 	int fd;
 	struct stat st;
 	void *map;
-	int exit_code;
+	t_list *symbols;
 
 	fd = -1;
 	map = NULL;
-
 	if ( !init_map( filename, &fd, &st, &map ) )
 		return ( 0 );
+	symbols = NULL;
+	if ( !process_file( &symbols, filename, st.st_size, map ) )
+	{
+		cleanup_map( fd, map, st.st_size );
+		ft_lstfree( &symbols );
+		return ( 0 );
+	}
+	print_symbols( opts, symbols, ( ( ( unsigned char * ) map )[EI_CLASS] == ELFCLASS64 ) );
 
-	exit_code = process_file_and_print( opts, filename, st.st_size, map );
 	cleanup_map( fd, map, st.st_size );
-	return ( exit_code );
+	ft_lstfree( &symbols );
+	return ( 1 );
 }
 
 int ft_nm_wrapper( t_opts *opts )

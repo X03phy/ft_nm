@@ -6,7 +6,7 @@
 /*   By: x03phy <x03phy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 23:32:19 by x03phy            #+#    #+#             */
-/*   Updated: 2025/10/26 18:13:19 by x03phy           ###   ########.fr       */
+/*   Updated: 2025/10/26 19:04:04 by x03phy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ typedef struct s_symbol
 	uint64_t address;
 	char type;
 	char *name;
-	char *section_name;
 } t_symbol;
 
 typedef struct s_opts
@@ -68,9 +67,8 @@ void convert_elf_symbol32_endian( Elf32_Sym *sym, int little );
 
 /* Process */
 int process_elf32( void *map, t_list **symbols );
-int process_elf64( void *map, t_list **symbols );
-int process_archive_and_print( t_opts *opts, void *map, size_t size );
-int process_file_and_print( t_opts *opts, const char *filename, size_t size, void *map );
+int process_elf64( t_list **symbols, void *map );
+int process_file( t_list **symbols, const char *filename, size_t size, void *map );
 
 /* ft_nm */
 int ft_nm_wrapper( t_opts *opts );

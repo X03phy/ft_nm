@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   convert_endian32.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
+/*   By: x03phy <x03phy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 12:11:10 by ebonutto          #+#    #+#             */
-/*   Updated: 2025/10/14 12:20:14 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/10/26 18:40:26 by x03phy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_nm.h"
-
 #include "ft_bswap.h"
 
 void convert_elf_header32_endian( Elf32_Ehdr *elf_header, int little )
