@@ -125,17 +125,11 @@ Value   = 0x4011e0
 ```
 'u' : Unique global symbol (GNU)
 
-
 'i' : GNU indirect function (IFUNC)
-
-
 
 'U'	: Undefined symbol
 
-
 'A'	: Absolute symbol (not relocatable)
-
-
 
 'C' : Common symbol (uninitialized, merged by linker)
 
