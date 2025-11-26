@@ -1,3 +1,8 @@
+## Doc
+
+https://can-ozkan.medium.com/exploring-the-nm-tool-understanding-symbols-in-binaries-1ae03193212a
+
+
 ## Commands to Generate ELF
 
 ### Generating an executable
