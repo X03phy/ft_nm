@@ -1,139 +1,167 @@
-## ELF Header
+## Commands to Generate ELF
+
+### Generating an executable
+
+```
+gcc hello.c
+```
+
+For Big-Endian :
+
+```
+powerpc-linux-gnu-gcc
+```
+
+### Generating a .o
+
+```
+gcc -c hello.c -o hello.o
+```
+
+For x32 :
+
+```
+gcc -m32 hello.c -o hello.o
+```
+
+### Generating a .so
+
+```
+gcc -c -fPIC hello.c -o hello.o
+gcc hello.o -shared -o libhello.so
+```
+
+## ELF Structures
+
+### Header
+
+```
 typedef struct {
-    unsigned char e_ident[16];  // Signature ELF + infos système
-    uint16_t e_type;            // Type du fichier (relocatable, executable, shared)
-    uint16_t e_machine;         // Architecture (x86_64, ARM...)
-    uint32_t e_version;         // Version ELF
-    uint64_t e_entry;           // Adresse du point d'entrée (main)
-    uint64_t e_phoff;           // Offset vers la table des Program Headers
-    uint64_t e_shoff;           // Offset vers la table des Section Headers
-    uint32_t e_flags;           // Flags
-    uint16_t e_ehsize;          // Taille de ce header
-    uint16_t e_phentsize;       // Taille d’une entrée Program Header
-    uint16_t e_phnum;           // Nombre d’entrées Program Header
-    uint16_t e_shentsize;       // Taille d’une entrée Section Header
-    uint16_t e_shnum;           // Nombre d’entrées Section Header
-    uint16_t e_shstrndx;        // Index de la section contenant les noms des sections
+	unsigned char e_ident[16];  // ELF magic bytes + file/class/data ABI info
+	uint16_t e_type;            // File type (REL, EXEC, DYN...)
+	uint16_t e_machine;         // Target architecture (x86_64 = 62)
+	uint32_t e_version;         // ELF version (always 1)
+	uint64_t e_entry;           // Entry point virtual address
+	uint64_t e_phoff;           // Offset to Program Header Table
+	uint64_t e_shoff;           // Offset to Section Header Table
+	uint32_t e_flags;           // Processor-specific flags
+	uint16_t e_ehsize;          // ELF header size
+	uint16_t e_phentsize;       // Size of one program header entry
+	uint16_t e_phnum;           // Number of program header entries
+	uint16_t e_shentsize;       // Size of one section header entry
+	uint16_t e_shnum;           // Number of section header entries
+	uint16_t e_shstrndx;        // Index of section-name string table
 } Elf64_Ehdr;
+```
 
+#### Example
 
+```
+7f 45 4c 46 02 01 01 ...   → "\x7fELF", 64-bit, little-endian
+e_type    = 0x02           → Executable
+e_machine = 0x3e           → x86_64
+e_entry   = 0x401000       → Entry address
+```
+
+### Section Header
+
+```
 typedef struct {
-    uint32_t sh_name;       // Offset dans la table des noms de sections
-    uint32_t sh_type;       // Type de la section (code, data, symboles…)
-    uint64_t sh_flags;      // Attributs (alloc, exec, write...)
-    uint64_t sh_addr;       // Adresse virtuelle (si applicable)
-    uint64_t sh_offset;     // Offset dans le fichier où commence la section
-    uint64_t sh_size;       // Taille de la section
-    uint32_t sh_link;       // Lien vers une autre section (ex: pour les symboles → strtab)
-    uint32_t sh_info;       // Infos supplémentaires
-    uint64_t sh_addralign;  // Alignement
-    uint64_t sh_entsize;    // Taille d’un élément (utile pour .symtab)
+	uint32_t sh_name;       // Offset in section string table (.shstrtab)
+	uint32_t sh_type;       // Section type (SHT_PROGBITS, SHT_SYMTAB...)
+	uint64_t sh_flags;      // Flags (ALLOC, WRITE, EXEC)
+	uint64_t sh_addr;       // Virtual address (if loaded)
+	uint64_t sh_offset;     // File offset to the section's data
+	uint64_t sh_size;       // Section size in bytes
+	uint32_t sh_link;       // Link to another section
+	uint32_t sh_info;       // Extra info (meaning depends on type)
+	uint64_t sh_addralign;  // Alignment constraint
+	uint64_t sh_entsize;    // Entry size (for tables)
 } Elf64_Shdr;
 
+```
 
+#### Example
+
+```
+Section: .text
+sh_type   = SHT_PROGBITS
+sh_flags  = SHF_ALLOC | SHF_EXECINSTR
+sh_offset = 0x1000
+sh_size   = 0x2a3
+```
+
+### String and symbol tables
+
+```
 typedef struct {
-   uint32_t st_name;       // Index du nom dans la table de chaînes
-   unsigned char st_info;  // Type et liaison (func, object, global/local)
-   unsigned char st_other; // Visibilité
-   uint16_t st_shndx;      // Index de la section associée
-   uint64_t st_value;      // Adresse ou offset du symbole
-   uint64_t st_size;       // Taille (si connue)
+	uint32_t st_name;       // Offset in .strtab (symbol name)
+	unsigned char st_info;  // Binding + type
+	unsigned char st_other; // Visibility
+	uint16_t st_shndx;      // Section index
+	uint64_t st_value;      // Address/offset of symbol
+	uint64_t st_size;       // Symbol size (if known)
 } Elf64_Sym;
+```
 
-"A" The symbol's value is absolute, and will not be changed by
-	further linking.
+st_info :
 
-"B"
-"b" The symbol is in the BSS data section.  This section
-	typically contains zero-initialized or uninitialized data,
-	although the exact behavior is system dependent.
+bind = ELF64_ST_BIND(st_info) → GLOBAL / LOCAL / WEAK…
 
-"C"
-"c" The symbol is common.  Common symbols are uninitialized
-	data.  When linking, multiple common symbols may appear
-	with the same name.  If the symbol is defined anywhere,
-	the common symbols are treated as undefined references.
-	The lower case c character is used when the symbol is in a
-	special section for small commons.
+type = ELF64_ST_TYPE(st_info) → FUNC / OBJECT / SECTION / FILE / IFUNC…
 
-"D"
-"d" The symbol is in the initialized data section.
+#### Example
 
-"G"
-"g" The symbol is in an initialized data section for small
-	objects.  Some object file formats permit more efficient
-	access to small data objects, such as a global int
-	variable as opposed to a large global array.
+```
+Symbol: main
+Binding = GLOBAL
+Type    = FUNC
+Section = .text
+Value   = 0x4011e0
+```
 
-"i" For PE format files this indicates that the symbol is in a
-	section specific to the implementation of DLLs.
+## nm Symbol Letter
 
-	For ELF format files this indicates that the symbol is an
-	indirect function.  This is a GNU extension to the
-	standard set of ELF symbol types.  It indicates a symbol
-	which if referenced by a relocation does not evaluate to
-	its address, but instead must be invoked at runtime.  The
-	runtime execution will then return the value to be used in
-	the relocation.
+```
+'u' : Unique global symbol (GNU)
 
-	Note - the actual symbols display for GNU indirect symbols
-	is controlled by the --ifunc-chars command line option.
-	If this option has been provided then the first character
-	in the string will be used for global indirect function
-	symbols.  If the string contains a second character then
-	that will be used for local indirect function symbols.
 
-"I" The symbol is an indirect reference to another symbol.
+'i' : GNU indirect function (IFUNC)
 
-"N" The symbol is a debugging symbol.
 
-"n" The symbol is in a non-data, non-code, non-debug read-only
-	section.
 
-"p" The symbol is in a stack unwind section.
+'U'	: Undefined symbol
 
-"R"
-"r" The symbol is in a read only data section.
 
-"S"
-"s" The symbol is in an uninitialized or zero-initialized data
-	section for small objects.
+'A'	: Absolute symbol (not relocatable)
 
-"T"
-"t" The symbol is in the text (code) section.
 
-"U" The symbol is undefined.
 
-"u" The symbol is a unique global symbol.  This is a GNU
-	extension to the standard set of ELF symbol bindings.  For
-	such a symbol the dynamic linker will make sure that in
-	the entire process there is just one symbol with this name
-	and type in use.
+'C' : Common symbol (uninitialized, merged by linker)
 
-"V"
-"v" The symbol is a weak object.  When a weak defined symbol
-	is linked with a normal defined symbol, the normal defined
-	symbol is used with no error.  When a weak undefined
-	symbol is linked and the symbol is not defined, the value
-	of the weak symbol becomes zero with no error.  On some
-	systems, uppercase indicates that a default value has been
-	specified.
 
-"W"
-"w" The symbol is a weak symbol that has not been specifically
-	tagged as a weak object symbol.  When a weak defined
-	symbol is linked with a normal defined symbol, the normal
-	defined symbol is used with no error.  When a weak
-	undefined symbol is linked and the symbol is not defined,
-	the value of the symbol is determined in a system-specific
-	manner without error.  On some systems, uppercase
-	indicates that a default value has been specified.
+B/b	BSS (uninitialized data)
 
-"-" The symbol is a stabs symbol in an a.out object file.  In
-	this case, the next values printed are the stabs other
-	field, the stabs desc field, and the stab type.  Stabs
-	symbols are used to hold debugging information.
+D/d	Initialized data
 
-"?" The symbol type is unknown, or object file format
-	specific.
+G/g	Small data section
 
+I	Indirect reference
+
+N	Debugging symbol
+
+n	Read-only, non-code data
+
+p	Stack unwind section
+
+R/r	Read-only data
+
+S/s	Small BSS
+
+T/t	Text section (code)
+
+V/v	Weak object
+
+W/w	Weak symbol
+
+?	Unknown symbol

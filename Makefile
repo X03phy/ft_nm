@@ -43,6 +43,17 @@ fclean: clean
 
 re: fclean all
 
+test: all
+	@if [ -z "$(FILE)" ]; then \
+		echo "Usage: make test FILE=/path/to/binary"; \
+		exit 1; \
+	fi
+	@echo ">>> Testing $(FILE)"
+	@./ft_nm $(FILE) > .ft_nm_out 2>&1 || true
+	@nm $(FILE)     > .nm_out    2>&1 || true
+	@diff -u .nm_out .ft_nm_out || (echo ""; echo "❌ Differences found !"; exit 1)
+	@echo "✔️  No differences"
+
 -include $(DEP)
 
-.PHONY=all clean fclean re create_dir
+.PHONY=all clean fclean re create_dir test
