@@ -6,7 +6,7 @@
 /*   By: x03phy <x03phy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/26 19:14:22 by x03phy            #+#    #+#             */
-/*   Updated: 2025/10/26 19:27:13 by x03phy           ###   ########.fr       */
+/*   Updated: 2025/11/26 01:34:41 by x03phy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,10 +110,7 @@ int process_elf32( t_list **symbols, void *map )
 	if ( little == -1 )
 		return ( 0 );
 
-	convert_elf_header32_endian( elf_header, little );
-
 	sections = ( Elf32_Shdr * ) ( map + elf_header->e_shoff );
-	convert_elf_sections32_endian( sections, elf_header->e_shnum, little );
 	shstrtab = ( char * ) ( map + sections[elf_header->e_shstrndx].sh_offset );
 
 	for ( uint16_t i = 0; i < elf_header->e_shnum; i += 1 )
@@ -126,8 +123,6 @@ int process_elf32( t_list **symbols, void *map )
 
 			for ( size_t j = 1; j < sym_count; j += 1 )
 			{
-				convert_elf_symbol32_endian( &syms[j], little );
-
 				symbol = malloc( sizeof( t_symbol ) );
 				if ( !symbol )
 					continue;
