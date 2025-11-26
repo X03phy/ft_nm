@@ -123,39 +123,39 @@ Value   = 0x4011e0
 ## nm Symbol Letter
 
 ```
-'u' : Unique global symbol (GNU)
+u – Unique global symbol (GNU)
+A global symbol declared as unique: only one definition is allowed in the entire program. GNU extension.
 
-'i' : GNU indirect function (IFUNC)
+i – GNU IFUNC (indirect function)
+A function whose final address is resolved at runtime by a resolver function. Used to select optimized implementations depending on the CPU.
 
-'U'	: Undefined symbol
+U – Undefined symbol
+A symbol that is referenced but not defined in the current file (resolved by the linker or dynamically at runtime).
 
-'A'	: Absolute symbol (not relocatable)
+A – Absolute symbol
+A symbol with an absolute, non-relocatable address.
 
-'C' : Common symbol (uninitialized, merged by linker)
+C – Common symbol
+Uninitialized global data. Merged by the linker. Typically corresponds to non-static global variables without an initial value.
 
+V/v – Weak object
+Weak object symbol. Can be overridden by a strong definition.
 
-B/b	BSS (uninitialized data)
+W/w – Weak symbol
+Weak symbol (function or variable). Can be replaced by a strong symbol.
 
-D/d	Initialized data
+B/b – BSS (uninitialized data)
+Global variables located in the .bss section (uninitialized data).
 
-G/g	Small data section
+T/t – Text section (code)
+Functions or code located in the .text section.
 
-I	Indirect reference
+R/r – Read-only data
+Symbols in the .rodata section (read-only data).
 
-N	Debugging symbol
+D/d – Initialized data
+Global variables with an initial value (stored in the .data section).
 
-n	Read-only, non-code data
-
-p	Stack unwind section
-
-R/r	Read-only data
-
-S/s	Small BSS
-
-T/t	Text section (code)
-
-V/v	Weak object
-
-W/w	Weak symbol
-
-?	Unknown symbol
+? – Unknown symbol
+Symbol type not recognized by nm (rare).
+```
