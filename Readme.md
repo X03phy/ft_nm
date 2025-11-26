@@ -6,7 +6,7 @@
 gcc hello.c
 ```
 
-For Big-Endian :
+For Mips :
 
 ```
 powerpc-linux-gnu-gcc

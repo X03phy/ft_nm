@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_file.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebonutto <ebonutto@student.42.fr>          +#+  +:+       +#+        */
+/*   By: x03phy <x03phy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 23:32:39 by x03phy            #+#    #+#             */
-/*   Updated: 2025/11/25 14:26:12 by ebonutto         ###   ########.fr       */
+/*   Updated: 2025/11/26 01:17:31 by x03phy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int process_file( t_list **symbols, const char *filename, void *map )
 
 	if ( e_ident[EI_CLASS] == ELFCLASS64 ) /* Process elf 64 */
 	{
-		if ( ( ( Elf64_Ehdr * ) map )->e_machine == EM_X86_64 ) /* Is x64 */
+		if ( 1 ) /* Is x64 */
 			exit_code = process_elf64( symbols, map );
 		else
 		{
@@ -40,7 +40,7 @@ int process_file( t_list **symbols, const char *filename, void *map )
 	}
 	else if ( e_ident[EI_CLASS] == ELFCLASS32 ) /* Process elf 32 */
 	{
-		if ( ( ( Elf64_Ehdr * ) map )->e_machine == EM_386 ) /* Is x86 */
+		if ( 1 ) /* Is x86 */
 			exit_code = process_elf32( symbols, map );
 		else
 		{
